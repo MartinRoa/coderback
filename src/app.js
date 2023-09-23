@@ -1,46 +1,25 @@
 import express from "express";
-import ProductManager from "./ProductManager.js";
+import productsRouter from "./routes/products.router.js";
+import cartsRouter from "./routes/carts.router.js";
 
 const app = express();
+const PORT = 8080;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const PORT = 8080;
+app.use("/api/products", productsRouter);
+app.use("/api/carts", cartsRouter);
 
 app.listen(PORT, () => {
     console.log(`Example app listening on port http://localhost:${PORT}`)
 });
 
-// ENDPOINTS
-
-const productManager = new ProductManager("products.json");
-
-app.get("/products", async (req, res) => {
-    const limit = req.query.limit;
-    const products = await productManager.getProducts();
-
-    if(!limit) {
-        return res.json(products);
-    } else if (limit > products.length) {
-        return res.json({
-            error: "The entered limit is higher than the number of products."
-        })
-    } else {
-        return res.json(products.slice(0, limit));
-    }
-});
-
-app.get("/products/:pid", async (req, res) => {
-    const id = parseInt(req.params.pid);
-    const product = await productManager.getProductById(id);
-
-    if(product) {
-        res.json(product);
-    } else {
-        res.json({
-            error: "Product not exist!"
-        });
-    }
+app.get("*", async (req, res) => {
+    return res.status(404).json({
+        status: "error",
+        message: "Route not found.",
+        data: {}
+    })
 });
 
