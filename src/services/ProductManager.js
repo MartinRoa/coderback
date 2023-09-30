@@ -35,7 +35,7 @@ class ProductManager {
                 status: true,
                 stock: newProduct.stock,
                 category: newProduct.category,
-                thumbnail: newProduct.thumbnail
+                thumbnail: (newProduct.thumbnail !== "") ? newProduct.thumbnail : "Sin imagen" 
             })
 
             const productsString = JSON.stringify(this.products);
@@ -94,4 +94,4 @@ class ProductManager {
     }
 }
 
-export default ProductManager;
+export default new ProductManager("products.json");

@@ -1,0 +1,17 @@
+.realTimeProducts {
+    display: flex;
+}
+
+.products__title {
+    color:red;
+    margin: 0;
+}
+
+.products__container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.list__item {
+    font-size: 12px;
+}

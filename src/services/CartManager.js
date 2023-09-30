@@ -1,4 +1,5 @@
 import fs from "fs";
+import productManager from "./ProductManager.js";
 
 class CartManager {
     constructor(path) {
@@ -48,8 +49,10 @@ class CartManager {
     async addProductToCart(cid, pid) {
         await this.loadData();
         const cart = this.carts.find((e) => e.id === cid);
+        const products = await productManager.getProducts();  
+        const product = products.find((e) => e.id === pid);
 
-        if(cart){
+        if(cart && product){
             const cartProduct = cart.products.find((e) => e.product === pid)
             if(cartProduct) {
                 cartProduct.quantity = cartProduct.quantity + 1;
@@ -69,4 +72,4 @@ class CartManager {
     }
 }
 
-export default CartManager;
+export default new CartManager("carts.json");

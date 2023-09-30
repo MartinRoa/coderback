@@ -1,0 +1,53 @@
+<div class="realTimeProducts">
+    <form action="/realtimeproducts" id="formProducts" method="POST">
+        <div>
+            <label for="title">Producto: </label>
+            <input type="text" name="title" id="title" required>
+        </div>
+        <div>
+            <label for="description">Descripción: </label>
+            <input type="text" name="description"  id="description" required>
+        </div>
+        <div>
+            <label for="code">Código: </label>
+            <input type="text" name="code"  id="code" required>
+        </div>
+        <div>
+            <label for="price">Precio: </label>
+            <input type="text" name="price"  id="price" required>
+        </div>
+        <div>
+            <label for="stock">Stock: </label>
+            <input type="text" name="stock"  id="stock" required>
+        </div>
+        <div>
+            <label for="category">Categoría: </label>
+            <input type="text" name="category"  id="category" required>
+        </div>
+        <div>
+            <label for="thumbnail">Imagen: </label>
+            <input type="file" name="thumbnail" id="thumbnail">
+        </div>
+        <button type="submit">Agregar Producto</button>
+    </form>
+    <div class="products">
+        <h1 class="products__title">Lista de productos:</h1>
+        <div id="productsList" class="products__container">
+        {{#each products}}
+            <ul id="{{id}}" class="product__list">
+                <li class="list__item">Id: {{id}}</li>
+                <li class="list__item">Producto: {{title}}</li>
+                <li class="list__item">Descripción: {{description}}</li>
+                <li class="list__item">Código: {{code}}</li>
+                <li class="list__item">Precio: {{price}}</li>
+                <li class="list__item">Stock: {{stock}}</li>
+                <li class="list__item">Categoría: {{category}}</li>
+                <li class="list__item">Imagen: {{thumbnail}}</li>
+                <button class="deleteBtn" data-product-id={{id}}>Eliminar</button>
+            </ul>
+        {{/each}}
+    </div>
+</div>
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/index.js"></script>

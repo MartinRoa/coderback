@@ -1,8 +1,8 @@
 import { Router } from "express";
-const productsRouter = Router();
+import productManager from "../services/ProductManager.js";
+import { uploader } from "../utils.js";
 
-import ProductManager from "../ProductManager.js";
-const productManager = new ProductManager("products.json");
+const productsRouter = Router();
 
 // ENDPOINTS PRODUCTS
 
@@ -50,8 +50,11 @@ productsRouter.get("/:pid", async (req, res) => {
     }
 });
 
-productsRouter.post("/", async (req, res) => {
+productsRouter.post("/", uploader.single("thumbnail"),async (req, res) => {
     const newProduct = req.body;
+    if(req.file){
+        newProduct.thumbnail = req.file.path;
+    }
     const products = await productManager.addProduct(newProduct);
 
     if(products) {
@@ -92,7 +95,6 @@ productsRouter.put("/:pid", async (req, res) => {
 productsRouter.delete("/:pid", async (req, res) => {
     const idToDelete = parseInt(req.params.pid);
     const deleteProduct = await productManager.deleteProduct(idToDelete);
-    console.log(deleteProduct)
 
     if(deleteProduct) {
         return res.status(200).json({
