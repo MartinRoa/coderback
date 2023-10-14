@@ -1,6 +1,8 @@
 import { Server } from "socket.io";
-import productManager from "../services/ProductManager.js";
+import productManager from "../DAO/ProductManager.js";
+import MsgService from "../services/messages.service.js";
 
+const msgService = new MsgService();
 let io;
 
 export function initializeSocket(server) {
@@ -26,6 +28,12 @@ export function initializeSocket(server) {
             await productManager.deleteProduct(parseInt(data));
 
             io.emit('newList', productToDelete.id);
+        });
+
+        socket.on('msg_front_to_back', async (msg) => {
+            const msgCreated = await msgService.newMsg(msg);
+            const msgs = await msgService.getAllMsgs({});
+            io.emit('msg_back_to_front', msgs);
         });
     });
 }

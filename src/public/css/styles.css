@@ -15,3 +15,29 @@
 .list__item {
     font-size: 12px;
 }
+
+.msgsBox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.msgBox {
+    width: 300px;
+    border: 3px solid blue;
+    border-radius: 5px;
+    padding: 3px;
+}
+
+.msgBox__user {
+    color: aqua;
+    font-weight: bold;
+    font-size: 24px;
+    margin: 0;
+}
+
+.msgBox__msg {
+    font-size: 16px;
+    margin: 0;
+}

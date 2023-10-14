@@ -2,7 +2,7 @@ import express from "express";
 import handlebars from "express-handlebars";
 import apiRouter from "./routes/api.router.js";
 import viewsRouter from "./routes/views.router.js";
-import __dirname from "./utils.js";
+import { __dirname, connectMongoDB } from "./utils.js";
 import { initializeSocket } from "./socket/socketServer.js";
 
 const app = express();
@@ -16,6 +16,7 @@ const httpServer = app.listen(PORT, () => {
     console.log(`Example app listening on port http://localhost:${PORT}`)
 });
 
+connectMongoDB();
 initializeSocket(httpServer);
 
 app.engine("handlebars", handlebars.engine());

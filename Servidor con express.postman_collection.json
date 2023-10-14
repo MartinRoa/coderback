@@ -1,0 +1,469 @@
+{
+	"info": {
+		"_postman_id": "ddde0888-f3d7-4bb5-aa68-ab0731f2a556",
+		"name": "Servidor con express",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27127576"
+	},
+	"item": [
+		{
+			"name": "Router Products",
+			"item": [
+				{
+					"name": "GET all products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products"
+							]
+						},
+						"description": "http://localhost:8080/api/products"
+					},
+					"response": []
+				},
+				{
+					"name": "GET a limit of products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/products/?limit=2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products",
+								""
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "2"
+								}
+							]
+						},
+						"description": "http://localhost:8080/api/products/?limit=5"
+					},
+					"response": []
+				},
+				{
+					"name": "GET higher entered limit",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/products/?limit=25",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products",
+								""
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "25"
+								}
+							]
+						},
+						"description": "http://localhost:8080/api/products/?limit=25"
+					},
+					"response": []
+				},
+				{
+					"name": "GET product by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/products/647638cfc81506a9943178dd",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products",
+								"647638cfc81506a9943178dd"
+							]
+						},
+						"description": "http://localhost:8080/api/products/8"
+					},
+					"response": []
+				},
+				{
+					"name": "GET invalid id product",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/products/14",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products",
+								"14"
+							]
+						},
+						"description": "http://localhost:8080/api/products/14"
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE product",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/products/647761ce627c57abdd743b4d",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products",
+								"647761ce627c57abdd743b4d"
+							]
+						},
+						"description": "http://localhost:8080/api/products/4"
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE invalid id product",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/products/125235",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products",
+								"125235"
+							]
+						},
+						"description": "http://localhost:8080/api/products/12"
+					},
+					"response": []
+				},
+				{
+					"name": "POST new product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Producto prueba13\",\r\n    \"description\": \"Este es un producto prueba13\",\r\n    \"code\": \"abc146\",\r\n    \"price\": 230,\r\n    \"stock\": 40,\r\n    \"category\": \"Categoría de prueba\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products"
+							]
+						},
+						"description": "http://localhost:8080/api/products\r\n{\r\n    \"title\": \"Producto prueba11\",\r\n    \"description\": \"Este es un producto prueba11\",\r\n    \"price\": 250,\r\n    \"thumbnail\": \"Sin imagen\",\r\n    \"code\": \"abc140\",\r\n    \"stock\": 22\r\n}"
+					},
+					"response": []
+				},
+				{
+					"name": "POST new product with invalid code",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Producto prueba12\",\r\n    \"description\": \"Este es un producto prueba12\",\r\n    \"code\": \"abc145\",\r\n    \"price\": 250,\r\n    \"stock\": 22,\r\n    \"category\": \"Categoría de prueba\",\r\n    \"thumbnail\": \"Sin imagen\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products"
+							]
+						},
+						"description": "http://localhost:8080/api/products"
+					},
+					"response": []
+				},
+				{
+					"name": "POST product information incomplete",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Producto prueba12\",\r\n    \"price\": 50,\r\n    \"thumbnail\": \"Sin imagen\",\r\n    \"code\": \"abc145\",\r\n    \"stock\": 229\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products"
+							]
+						},
+						"description": "http://localhost:8080/api/products\r\n\r\nThere isn't a description of the product."
+					},
+					"response": []
+				},
+				{
+					"name": "PUT modified product",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"price\": 230\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/products/64763694c81506a9943178d8",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products",
+								"64763694c81506a9943178d8"
+							]
+						},
+						"description": "http://localhost:8080/api/products/9"
+					},
+					"response": []
+				},
+				{
+					"name": "PUT invalid id product",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Este es un producto prueba9 MODIFICADO DESDE EL PUT\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/products/21",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products",
+								"21"
+							]
+						},
+						"description": "http://localhost:8080/api/products/21"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Router Carts",
+			"item": [
+				{
+					"name": "POST new cart",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/carts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"carts"
+							]
+						},
+						"description": "http://localhost:8080/api/carts"
+					},
+					"response": []
+				},
+				{
+					"name": "GET cart by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/carts/6479f7d72e8278abd98e075c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"carts",
+								"6479f7d72e8278abd98e075c"
+							]
+						},
+						"description": "http://localhost:8080/api/carts/1"
+					},
+					"response": []
+				},
+				{
+					"name": "GET invalid cart id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/carts/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"carts",
+								"4"
+							]
+						},
+						"description": "http://localhost:8080/api/carts/4"
+					},
+					"response": []
+				},
+				{
+					"name": "POST add product to cart",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/carts/6479f7d72e8278abd98e075c/product/64763694c81506a9943178d8",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"carts",
+								"6479f7d72e8278abd98e075c",
+								"product",
+								"64763694c81506a9943178d8"
+							]
+						},
+						"description": "http://localhost:8080/api/carts/1/product/4"
+					},
+					"response": []
+				},
+				{
+					"name": "POST add product to cart invalid information",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/carts/6479f7d72e8278abd98e075c/product/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"carts",
+								"6479f7d72e8278abd98e075c",
+								"product",
+								"3"
+							]
+						},
+						"description": "http://localhost:8080/api/carts/2/product/3"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "GET without route",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/asdasf",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"asdasf"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

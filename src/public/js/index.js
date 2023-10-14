@@ -1,5 +1,58 @@
 const socket = io();
 
+//----------CHAT----------------
+
+// ASK USER EMAIL TO CONNECT CHAT
+let userEmail = '';
+
+async function askUserEmail() {
+  const { value: email } = await Swal.fire({
+    title: 'Enter your mail',
+    input: 'text',
+    inputLabel: 'Your mail',
+    inputValue: '',
+    showCancelButton: false,
+    inputValidator: (value) => {
+      if (!value) {
+        return 'You need to write your mail!';
+      }
+    },
+  });
+
+  userEmail = email;
+}
+
+askUserEmail();
+
+//FRONT EMIT IN THE CHAT
+const chatBox = document.getElementById('chat-box');
+
+chatBox.addEventListener('keyup', ({ key }) => {
+  if (key == 'Enter') {
+    socket.emit('msg_front_to_back', {
+      user: userEmail,
+      message: chatBox.value,
+    });
+    chatBox.value = '';
+  }
+});
+
+//FRONT RECEIVES IN THE CHAT
+socket.on('msg_back_to_front', (msgs) => {
+  console.log(msgs);
+  let msgsFormat = '';
+  msgs.forEach((msg) => {
+    msgsFormat += "<div class='msgBox'>";
+    msgsFormat += "<p class='msgBox__user'>" + msg.user + "</p>";
+    msgsFormat += "<p class='msgBox__msg'>" + msg.message + "</p>";
+    msgsFormat += "</div>";
+  });
+  const divMsgs = document.getElementById('div-msgs');
+  divMsgs.innerHTML = msgsFormat;
+});
+
+//----------REAL TIME PRODUCTS----------------
+
 // CREATE NEW PRODUCT
 const formProducts = document.getElementById("formProducts");
 const inputTitle = document.getElementById("title");
@@ -62,4 +115,3 @@ socket.on("newList", (idProd) => {
     const productContainer = document.getElementById(idProd);
     productContainer.remove();
 })
-
