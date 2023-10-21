@@ -1,0 +1,25 @@
+<div class="products">
+    <h1 class="products__title">Lista de productos:</h1>
+    <div class="products__container">
+    {{#each finalData.payload}}
+        <ul class="product__list">
+            <li class="list__item">Producto: {{title}}</li>
+            <li class="list__item">Descripción: {{description}}</li>
+            <li class="list__item">Código: {{code}}</li>
+            <li class="list__item">Precio: {{price}}</li>
+            <li class="list__item">Stock: {{stock}}</li>
+            <li class="list__item">Categoría: {{category}}</li>
+            <button>Agregar al carrito</button>
+        </ul>
+    {{/each}}
+    </div>
+</div>
+<div class="pagination">
+    {{#if finalData.hasPrevPage}}
+        <a href={{finalData.prevLink}} class="pagination__link">{{finalData.prevPage}}</a>
+    {{/if}}
+    <p class="pagination__page">{{finalData.page}}</p>
+    {{#if finalData.hasNextPage}}
+        <a href={{finalData.nextLink}} class="pagination__link">{{finalData.nextPage}}</a>
+    {{/if}}
+</div>

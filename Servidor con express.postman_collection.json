@@ -36,7 +36,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/products/?limit=2",
+							"raw": "http://localhost:8080/api/products/?limit=7",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -50,39 +50,11 @@
 							"query": [
 								{
 									"key": "limit",
-									"value": "2"
+									"value": "7"
 								}
 							]
 						},
 						"description": "http://localhost:8080/api/products/?limit=5"
-					},
-					"response": []
-				},
-				{
-					"name": "GET higher entered limit",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/api/products/?limit=25",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"products",
-								""
-							],
-							"query": [
-								{
-									"key": "limit",
-									"value": "25"
-								}
-							]
-						},
-						"description": "http://localhost:8080/api/products/?limit=25"
 					},
 					"response": []
 				},
@@ -109,34 +81,12 @@
 					"response": []
 				},
 				{
-					"name": "GET invalid id product",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/api/products/14",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"products",
-								"14"
-							]
-						},
-						"description": "http://localhost:8080/api/products/14"
-					},
-					"response": []
-				},
-				{
 					"name": "DELETE product",
 					"request": {
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/products/647761ce627c57abdd743b4d",
+							"raw": "http://localhost:8080/api/products/648689da028c634cb92454c2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -145,32 +95,10 @@
 							"path": [
 								"api",
 								"products",
-								"647761ce627c57abdd743b4d"
+								"648689da028c634cb92454c2"
 							]
 						},
 						"description": "http://localhost:8080/api/products/4"
-					},
-					"response": []
-				},
-				{
-					"name": "DELETE invalid id product",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/api/products/125235",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"products",
-								"125235"
-							]
-						},
-						"description": "http://localhost:8080/api/products/12"
 					},
 					"response": []
 				},
@@ -201,36 +129,6 @@
 							]
 						},
 						"description": "http://localhost:8080/api/products\r\n{\r\n    \"title\": \"Producto prueba11\",\r\n    \"description\": \"Este es un producto prueba11\",\r\n    \"price\": 250,\r\n    \"thumbnail\": \"Sin imagen\",\r\n    \"code\": \"abc140\",\r\n    \"stock\": 22\r\n}"
-					},
-					"response": []
-				},
-				{
-					"name": "POST new product with invalid code",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"title\": \"Producto prueba12\",\r\n    \"description\": \"Este es un producto prueba12\",\r\n    \"code\": \"abc145\",\r\n    \"price\": 250,\r\n    \"stock\": 22,\r\n    \"category\": \"Categoría de prueba\",\r\n    \"thumbnail\": \"Sin imagen\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/products",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"products"
-							]
-						},
-						"description": "http://localhost:8080/api/products"
 					},
 					"response": []
 				},
@@ -271,7 +169,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"price\": 230\r\n}",
+							"raw": "{\r\n    \"price\": 120\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -292,37 +190,6 @@
 							]
 						},
 						"description": "http://localhost:8080/api/products/9"
-					},
-					"response": []
-				},
-				{
-					"name": "PUT invalid id product",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"title\": \"Este es un producto prueba9 MODIFICADO DESDE EL PUT\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/products/21",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"products",
-								"21"
-							]
-						},
-						"description": "http://localhost:8080/api/products/21"
 					},
 					"response": []
 				}
@@ -358,7 +225,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/carts/6479f7d72e8278abd98e075c",
+							"raw": "http://localhost:8080/api/carts/647d05271a099d122a651e83",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -367,32 +234,10 @@
 							"path": [
 								"api",
 								"carts",
-								"6479f7d72e8278abd98e075c"
+								"647d05271a099d122a651e83"
 							]
 						},
 						"description": "http://localhost:8080/api/carts/1"
-					},
-					"response": []
-				},
-				{
-					"name": "GET invalid cart id",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/api/carts/4",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"carts",
-								"4"
-							]
-						},
-						"description": "http://localhost:8080/api/carts/4"
 					},
 					"response": []
 				},
@@ -402,7 +247,7 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/carts/6479f7d72e8278abd98e075c/product/64763694c81506a9943178d8",
+							"raw": "http://localhost:8080/api/carts/647d05271a099d122a651e83/products/6479f8e92e8278abd98e076d",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -411,9 +256,9 @@
 							"path": [
 								"api",
 								"carts",
-								"6479f7d72e8278abd98e075c",
-								"product",
-								"64763694c81506a9943178d8"
+								"647d05271a099d122a651e83",
+								"products",
+								"6479f8e92e8278abd98e076d"
 							]
 						},
 						"description": "http://localhost:8080/api/carts/1/product/4"
@@ -421,12 +266,12 @@
 					"response": []
 				},
 				{
-					"name": "POST add product to cart invalid information",
+					"name": "DELETE product to cart",
 					"request": {
-						"method": "POST",
+						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/carts/6479f7d72e8278abd98e075c/product/3",
+							"raw": "http://localhost:8080/api/carts/6479f7d72e8278abd98e075c/products/647638a5c81506a9943178dc",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -436,11 +281,97 @@
 								"api",
 								"carts",
 								"6479f7d72e8278abd98e075c",
-								"product",
-								"3"
+								"products",
+								"647638a5c81506a9943178dc"
 							]
 						},
-						"description": "http://localhost:8080/api/carts/2/product/3"
+						"description": "http://localhost:8080/api/carts/6479f7d72e8278abd98e075c/products/64763694c81506a9943178d8"
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE all products to cart",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/carts/647d05271a099d122a651e83",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"carts",
+								"647d05271a099d122a651e83"
+							]
+						},
+						"description": "http://localhost:8080/api/carts/647804c8c92d3a55dcf6e682"
+					},
+					"response": []
+				},
+				{
+					"name": "PUT new quantity of product to cart",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"quantity\": 5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/carts/6479f7d72e8278abd98e075c/products/64776093f68ed84b4937557b",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"carts",
+								"6479f7d72e8278abd98e075c",
+								"products",
+								"64776093f68ed84b4937557b"
+							]
+						},
+						"description": "http://localhost:8080/api/carts/6479f7d72e8278abd98e075c/products/647638a5c81506a9943178dc"
+					},
+					"response": []
+				},
+				{
+					"name": "PUT update all cart",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    {\r\n        \"product\": \"647638a5c81506a9943178dc\",\r\n        \"quantity\": 2\r\n    },\r\n    {\r\n        \"product\": \"64776093f68ed84b4937557b\",\r\n        \"quantity\": 7\r\n    }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/carts/647804c8c92d3a55dcf6e682",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"carts",
+								"647804c8c92d3a55dcf6e682"
+							]
+						},
+						"description": "http://localhost:8080/api/carts/647804c8c92d3a55dcf6e682"
 					},
 					"response": []
 				}

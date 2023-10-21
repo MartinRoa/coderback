@@ -8,7 +8,7 @@ let userEmail = '';
 async function askUserEmail() {
   const { value: email } = await Swal.fire({
     title: 'Enter your mail',
-    input: 'text',
+    input: 'email',
     inputLabel: 'Your mail',
     inputValue: '',
     showCancelButton: false,

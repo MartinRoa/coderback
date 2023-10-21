@@ -28,6 +28,7 @@ app.use("/api", apiRouter);
 // HTML RENDER SERVER SIDE
 app.use("/", viewsRouter);
 
+
 app.get("*", async (req, res) => {
     return res.status(404).json({
         status: "error",

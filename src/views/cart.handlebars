@@ -1,0 +1,14 @@
+<div class="cart">
+    <h1 class="cart__title">Carrito:</h1>
+    <div class="cart__products">
+    {{#each finalData}}
+        <ul class="product__list">
+            <li class="list__item">Producto: {{title}}</li>
+            <li class="list__item">Precio: {{price}}</li>
+            <li class="list__item">Quantity: {{quantity}}</li>
+            <button>Eliminar</button>
+        </ul>
+    {{/each}}
+    </div>
+    <button>Vaciar Carrito</button>
+</div>

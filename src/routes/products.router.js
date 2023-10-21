@@ -10,33 +10,38 @@ const Service = new ProductService();
 // ENDPOINTS PRODUCTS WITH MONGODB
 
 productsRouter.get("/", async (req, res) => {
-    const limit = req.query.limit;
-    const products = await Service.getProducts();
-
-    if(!limit) {
-        return res.status(200).json({
-            status: "success",
-            message: "List of products.",
-            data: products
-        });
-    } else if (limit > products.length) {
+    try {
+        const limit = req.query.limit;
+        const products = await Service.getProducts();
+        if(!limit) {
+            return res.status(200).json({
+                status: "success",
+                message: "List of products.",
+                data: products
+            });
+        } else if (limit > products.length) {
+            throw new Error("The entered limit is higher than the number of products.");
+        } else {
+            return res.status(200).json({
+                status: "success",
+                message: `The first ${limit} products of the list.`,
+                data: products.slice(0, limit)
+            });
+        }
+    }
+    catch (error) {
         return res.status(409).json({
             status: "error",
-            message: "The entered limit is higher than the number of products.",
+            message: error.message,
             data: {}
         });
-    } else {
-        return res.status(200).json({
-            status: "success",
-            message: `The first ${limit} products of the list.`,
-            data: products.slice(0, limit)
-        });
     }
+
 });
 
 productsRouter.get("/:pid", async (req, res) => {
-    const id = req.params.pid;
     try {
+        const id = req.params.pid;
         const product = await Service.getProductById(id);
         res.status(200).json({
             status: "success",
@@ -44,23 +49,23 @@ productsRouter.get("/:pid", async (req, res) => {
             data: product
         });
     }
-    catch {
+    catch (error) {
         res.status(409).json({
             status: "error",
-            message: "Product not exist!",
+            message: error.message,
             data: {}
         });
     }
 });
 
 productsRouter.post("/", uploader.single("thumbnail"),async (req, res) => {
-    const newProduct = req.body;
-    if(req.file){
-        newProduct.thumbnail = req.file.path;
-    } else {
-        newProduct.thumbnail = "Sin imagen.";
-    }
     try {
+        const newProduct = req.body;
+        if(req.file){
+            newProduct.thumbnail = req.file.path;
+        } else {
+            newProduct.thumbnail = "Sin imagen.";
+        }
         const product = await Service.addProduct(newProduct);
         res.status(200).json({
             status: "success",
@@ -68,19 +73,19 @@ productsRouter.post("/", uploader.single("thumbnail"),async (req, res) => {
             data: product
         });
     }
-    catch {
+    catch (error) {
         res.status(409).json({
             status: "error",
-            message: "The entered product already exists, or the information provided is incomplete.",
+            message: error.message,
             data: {},
         });
     }
 });
 
 productsRouter.put("/:pid", async (req, res) => {
-    const idProd = req.params.pid;
-    const updateProduct = req.body;
     try {
+        const idProd = req.params.pid;
+        const updateProduct = req.body;
         const productUpdated = await Service.updateProduct(idProd, updateProduct);
         res.status(200).json({
             status: "success",
@@ -88,18 +93,18 @@ productsRouter.put("/:pid", async (req, res) => {
             data: productUpdated
         });
     }
-    catch {
+    catch (error) {
         res.status(409).json({
             status: "error",
-            message: "Product not found or invalid information.",
+            message: error.message,
             data: {}
         });
     }
 });
 
 productsRouter.delete("/:pid", async (req, res) => {
-    const idToDelete = req.params.pid;
     try {
+        const idToDelete = req.params.pid;
         const deleteProduct = await Service.deleteProduct(idToDelete);
         return res.status(200).json({
             status: "success",
@@ -107,10 +112,10 @@ productsRouter.delete("/:pid", async (req, res) => {
             data: deleteProduct
         });
     }
-    catch {
+    catch (error) {
         return res.status(409).json({
             status: "error",
-            message: "Product not found",
+            message: error.message,
             data: {}
         });
     }
