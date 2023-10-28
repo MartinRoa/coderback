@@ -4,6 +4,9 @@ import apiRouter from "./routes/api.router.js";
 import viewsRouter from "./routes/views.router.js";
 import { __dirname, connectMongoDB } from "./utils.js";
 import { initializeSocket } from "./socket/socketServer.js";
+import cookieParser from "cookie-parser";
+import session from "express-session";
+import MongoStore from "connect-mongo";
 
 const app = express();
 const PORT = 8080;
@@ -22,6 +25,16 @@ initializeSocket(httpServer);
 app.engine("handlebars", handlebars.engine());
 app.set("views", __dirname+"/views");
 app.set("view engine", "handlebars");
+
+app.use(cookieParser());
+app.use(
+    session({
+      store: MongoStore.create({ mongoUrl: 'mongodb+srv://matimontecalvo:9ViQcpiHOo24Iqpq@codercluster.yg3bbnd.mongodb.net/ecommerce?retryWrites=true&w=majority', ttl: 7200 }),
+      secret: '...',
+      resave: true,
+      saveUninitialized: true,
+    })
+);
 
 // API REST WITH JSON
 app.use("/api", apiRouter);

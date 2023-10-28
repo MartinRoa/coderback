@@ -1,11 +1,12 @@
 import { Router } from "express";
 import { productModel } from "../DAO/models/product.model.js";
+import { isUser } from "../middlewares/auth.js";
 
 const productsHTMLRouter = Router();
 
 // ENDPOINTS PRODUCTS WITH MONGODB
 
-productsHTMLRouter.get("/", async (req, res) => {
+productsHTMLRouter.get("/", isUser, async (req, res) => {
     try {
         const { limit, page, category, status, sort } = req.query;
 
@@ -52,7 +53,9 @@ productsHTMLRouter.get("/", async (req, res) => {
             hasPrevPage: result.hasPrevPage,
             hasNextPage: result.hasNextPage,
             prevLink: prevLinkURL,
-            nextLink: nextLinkURL
+            nextLink: nextLinkURL,
+            userName: req.session.firstName,
+            isAdmin: req.session.isAdmin
         };
 
         return res.status(200).render("products", {finalData});

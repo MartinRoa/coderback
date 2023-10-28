@@ -1,3 +1,12 @@
+<h1>Bienvenido {{finalData.userName}}</h1>
+<h3><a href="/auth/profile">
+{{#if finalData.isAdmin}}
+    Perfil de Administrador
+{{else}}
+    Perfil de Usuario
+{{/if}}
+</a></h3>
+<h5><a href="/auth/logout">Cerrar sesión</a></h5>
 <div class="products">
     <h1 class="products__title">Lista de productos:</h1>
     <div class="products__container">

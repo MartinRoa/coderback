@@ -1,0 +1,12 @@
+<h1>Perfil de {{user.firstName}}</h1>
+<h2>Email:</h2>
+<p>{{user.email}}</p>
+<h2>Credenciales:</h2>
+{{#if user.isAdmin}}
+    <p>Administrador</p>
+{{else}}
+    <p>Usuario</p>
+{{/if}}
+<a href='/auth/administration'>Data restringida para Administrador<a>
+<br><br>
+<a href='/auth/logout'>Cerrar sesión</a>

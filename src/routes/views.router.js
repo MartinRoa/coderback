@@ -2,6 +2,7 @@ import { Router } from "express";
 import productManager from "../DAO/ProductManager.js";
 import productsHTMLRouter from "./products.html.router.js";
 import cartHTMLRouter from "./cart.html.router.js";
+import authHTMLRouter from "./auth.html.router.js";
 
 const viewsRouter = Router();
 
@@ -9,13 +10,18 @@ const viewsRouter = Router();
 
 viewsRouter.use("/products", productsHTMLRouter);
 viewsRouter.use("/cart", cartHTMLRouter);
+viewsRouter.use("/auth", authHTMLRouter);
+
+viewsRouter.get("/", async (req, res) => {
+    return res.redirect('/auth/login');
+});
 
 // ENDPOINTS VIEWS WITH FILE SYSTEM
 
-viewsRouter.get("/", async (req, res) => {
-    const products = await productManager.getProducts();
-    res.render("home", {products});
-});
+// viewsRouter.get("/", async (req, res) => {
+//     const products = await productManager.getProducts();
+//     res.render("home", {products});
+// });
 
 viewsRouter.get("/realtimeproducts", async (req, res) => {
     const products = await productManager.getProducts();
