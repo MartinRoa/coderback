@@ -7,6 +7,8 @@ import { initializeSocket } from "./socket/socketServer.js";
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import MongoStore from "connect-mongo";
+import { initializePassport } from "./config/passport.config.js";
+import passport from "passport";
 
 const app = express();
 const PORT = 8080;
@@ -29,12 +31,16 @@ app.set("view engine", "handlebars");
 app.use(cookieParser());
 app.use(
     session({
-      store: MongoStore.create({ mongoUrl: 'mongodb+srv://matimontecalvo:9ViQcpiHOo24Iqpq@codercluster.yg3bbnd.mongodb.net/ecommerce?retryWrites=true&w=majority', ttl: 7200 }),
+      store: MongoStore.create({ mongoUrl: process.env.MONGODB_URL, ttl: 7200 }),
       secret: '...',
       resave: true,
       saveUninitialized: true,
     })
 );
+
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
 
 // API REST WITH JSON
 app.use("/api", apiRouter);

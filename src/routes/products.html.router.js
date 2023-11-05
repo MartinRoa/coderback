@@ -54,8 +54,8 @@ productsHTMLRouter.get("/", isUser, async (req, res) => {
             hasNextPage: result.hasNextPage,
             prevLink: prevLinkURL,
             nextLink: nextLinkURL,
-            userName: req.session.firstName,
-            isAdmin: req.session.isAdmin
+            userName: req.session.user.firstName,
+            isAdmin: req.session.user.isAdmin
         };
 
         return res.status(200).render("products", {finalData});
