@@ -18,7 +18,7 @@ authHTMLRouter.post('/login', passport.authenticate('login', { failureRedirect: 
     if (!req.user) {
         return res.status(400).render('error', { error: 'Coloque su email y contraseña para iniciar sesión.' });
     }
-    req.session.user = { _id: req.user._id, email: req.user.email, firstName: req.user.firstName, lastName: req.user.lastName, isAdmin: req.user.isAdmin };
+    req.session.user = { _id: req.user._id, email: req.user.email, firstName: req.user.firstName, lastName: req.user.lastName, role: req.user.role };
     
     return res.redirect('/products');
 });
@@ -38,7 +38,7 @@ authHTMLRouter.post('/register', passport.authenticate('register', { failureRedi
     if (!req.user) {
         return res.status(400).render('error', { error: 'Los datos ingresados son incompletos. Por favor, complete todos los campos.' });
     }
-        req.session.user = { _id: req.user._id, email: req.user.email, firstName: req.user.firstName, lastName: req.user.lastName, age: req.user.age, isAdmin: req.user.isAdmin };
+        req.session.user = { _id: req.user._id, email: req.user.email, firstName: req.user.firstName, lastName: req.user.lastName, age: req.user.age, role: req.user.role };
     
         return res.redirect('/products');
 });
@@ -48,7 +48,7 @@ authHTMLRouter.get('/failregister', async (req, res) => {
 });
 
 authHTMLRouter.get('/profile', isUser, (req, res) => {
-    const user = { firstName: req.session.user.firstName, email: req.session.user.email, isAdmin: req.session.user.isAdmin };
+    const user = { firstName: req.session.user.firstName, email: req.session.user.email, isAdmin: (req.session.user.role === "admin") ? true : false };
     return res.render('profile', { user: user });
 });
 

@@ -8,6 +8,9 @@ const LocalStrategy = local.Strategy;
 import dotenv from "dotenv";
 dotenv.config();
 
+import CartService from '../services/carts.service.js';
+const cartService = new CartService;
+
 export function initializePassport() {
 passport.use(
     'login',
@@ -46,16 +49,17 @@ passport.use(
                     return done(null, false);
                 }
 
+                const createCart = await cartService.newCart();
+
                 const newUser = {
                     email,
                     firstName,
                     lastName,
                     age,
-                    isAdmin: false,
+                    cart: createCart._id,
                     password: createHash(password),
                 };
                 let userCreated = await userModel.create(newUser);
-                console.log(userCreated);
                 console.log('User Registration successful');
                 return done(null, userCreated);
             } catch (e) {
@@ -76,7 +80,6 @@ passport.use(
             callbackURL: process.env.GITHUB_CALLBACK_URL
         },
         async (accesToken, _, profile, done) => {
-            console.log(profile);
             try {
             const res = await fetch('https://api.github.com/user/emails', {
                 headers: {
@@ -95,12 +98,13 @@ passport.use(
 
             let user = await userModel.findOne({ email: profile.email });
             if (!user) {
+                const createCart = await cartService.newCart();
                 const newUser = {
                 email: profile.email,
                 firstName: profile._json.name || profile._json.login || 'No name',
                 lastName: null,
                 age: null,
-                isAdmin: false,
+                cart: createCart._id,
                 password: '',
                 };
                 let userCreated = await userModel.create(newUser);

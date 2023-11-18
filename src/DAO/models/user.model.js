@@ -6,7 +6,8 @@ const userSchema = new Schema({
   email: { type: String, required: true, max: 100, unique: true },
   age: { type: Number || null },
   password: { type: String, max: 8 },
-  isAdmin: { type: Boolean, required: true }
+  cart: { type: String, required:  true },
+  role: { type: String, required: true, max: 100, default: "user" }
 });
 
 export const userModel = model('users', userSchema);
