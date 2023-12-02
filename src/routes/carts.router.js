@@ -1,151 +1,30 @@
 import { Router } from "express";
-// import cartManager from "../DAO/CartManager.js";
-import CartService from "../services/carts.service.js";
+import { cartsController } from "../controllers/carts.controller.js";
 
 const cartsRouter = Router();
 
-const Service = new CartService;
-
 // ENDPOINTS CARTS WITH MONGODB
 
-cartsRouter.post("/", async (req, res) => {
-    try {
-        const newCart = await Service.newCart();
-        res.status(200).json({
-            status: "success",
-            message: "Cart created successfully.",
-            data: newCart
-        });
-    }
-    catch (error) {
-        res.status(409).json({
-            status: "error",
-            message: error.message,
-            data: {}
-        });
-    }
-});
+cartsRouter.post("/", cartsController.createNewCart);
 
-cartsRouter.get("/:cid", async (req, res) => {
-    try {
-        const id = req.params.cid;
-        const cart = await Service.getCartById(id);
-        res.status(200).json({
-            status: "success",
-            message: "Cart found.",
-            data: cart
-        });
-    }
-    catch (error) {
-        res.status(409).json({
-            status: "error",
-            message: error.message,
-            data: {}
-        });
-    }
-});
+cartsRouter.get("/:cid", cartsController.getCartById);
 
-cartsRouter.post("/:cid/products/:pid", async (req, res) => {
-    try {
-        const cid = req.params.cid;
-        const pid = req.params.pid;
-        const addedProduct  = await Service.addProductToCart(cid, pid, 1);
-        res.status(200).json({
-            status: "success",
-            message: "Product added to cart successfully.",
-            data: addedProduct 
-        });
-    }
-    catch (error) {
-        res.status(409).json({
-            status: "error",
-            message: error.message,
-            data: {}
-        });
-    }
-});
+cartsRouter.post("/:cid/products/:pid", cartsController.addProductToCart);
 
-cartsRouter.delete("/:cid/products/:pid", async (req, res) => {
-    try {
-        const cid = req.params.cid;
-        const pid = req.params.pid;
-        const deleteProductToCart = await Service.deleteProductToCart(cid, pid);
-        res.status(200).json({
-            status: "success",
-            message: "Product deleted to cart successfully.",
-            data: deleteProductToCart
-        });
-    }
-    catch (error) {
-        res.status(409).json({
-            status: "error",
-            message: error.message,
-            data: {}
-        });
-    }
-});
+cartsRouter.delete("/:cid/products/:pid", cartsController.deleteProductToCart);
 
-cartsRouter.delete("/:cid", async (req, res) => {
-    try {
-        const id = req.params.cid;
-        const cart = await Service.emptyCart(id);
-        res.status(200).json({
-            status: "success",
-            message: "Cart emptied.",
-            data: cart
-        });
-    }
-    catch (error) {
-        res.status(409).json({
-            status: "error",
-            message: error.message,
-            data: {}
-        });
-    }
-});
+cartsRouter.delete("/:cid", cartsController.emptyCart);
 
-cartsRouter.put("/:cid/products/:pid", async (req, res) => {
-    try {
-        const cid = req.params.cid;
-        const pid = req.params.pid;
-        const newQty = req.body.quantity;
-        const updateProductQty = await Service.updateProductQty(cid, pid, newQty);
-        res.status(200).json({
-            status: "success",
-            message: "Product quantity updated successfully.",
-            data: updateProductQty
-        });
-    }
-    catch (error) {
-        res.status(409).json({
-            status: "error",
-            message: error.message,
-            data: {}
-        });
-    }
-});
+cartsRouter.put("/:cid/products/:pid", cartsController.updateProductQty);
 
-cartsRouter.put("/:cid", async (req, res) => {
-    try {
-        const id = req.params.cid;
-        const updateCart = req.body;
-        const cart = await Service.updateAllCart(id, updateCart);
-        res.status(200).json({
-            status: "success",
-            message: "Cart successfully updated.",
-            data: cart
-        });
-    }
-    catch (error) {
-        res.status(409).json({
-            status: "error",
-            message: error.message,
-            data: {}
-        });
-    }
-});
+cartsRouter.put("/:cid", cartsController.updateAllCart);
+
+export default cartsRouter;
+
 
 // ENDPOINTS CARTS WITH FILE SYSTEM
+
+// import cartManager from "../DAO/CartManager.js";
 
 // cartsRouter.post("/", async (req, res) => {
 //     const newCart = await cartManager.newCart();
@@ -203,5 +82,3 @@ cartsRouter.put("/:cid", async (req, res) => {
 //         });
 //     }
 // });
-
-export default cartsRouter;

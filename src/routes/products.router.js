@@ -1,147 +1,47 @@
 import { Router } from "express";
-//import productManager from "../DAO/ProductManager.js";
 import { uploader } from "../utils.js";
-import ProductService from "../services/products.service.js";
+import { productsController } from "../controllers/products.controller.js";
 
 const productsRouter = Router();
 
-const Service = new ProductService();
-
 // ENDPOINTS PRODUCTS WITH MONGODB
 
-productsRouter.get("/", async (req, res) => {
-    try {
-        const limit = req.query.limit;
-        const products = await Service.getProducts();
-        if(!limit) {
-            return res.status(200).json({
-                status: "success",
-                message: "List of products.",
-                data: products
-            });
-        } else if (limit > products.length) {
-            throw new Error("The entered limit is higher than the number of products.");
-        } else {
-            return res.status(200).json({
-                status: "success",
-                message: `The first ${limit} products of the list.`,
-                data: products.slice(0, limit)
-            });
-        }
-    }
-    catch (error) {
-        return res.status(409).json({
-            status: "error",
-            message: error.message,
-            data: {}
-        });
-    }
+productsRouter.get("/", productsController.getProducts);
 
-});
+productsRouter.get("/:pid", productsController.getProductById);
 
-productsRouter.get("/:pid", async (req, res) => {
-    try {
-        const id = req.params.pid;
-        const product = await Service.getProductById(id);
-        res.status(200).json({
-            status: "success",
-            message: "Product found.",
-            data: product
-        });
-    }
-    catch (error) {
-        res.status(409).json({
-            status: "error",
-            message: error.message,
-            data: {}
-        });
-    }
-});
+productsRouter.post("/", uploader.single("thumbnail"), productsController.addProduct);
 
-productsRouter.post("/", uploader.single("thumbnail"),async (req, res) => {
-    try {
-        const newProduct = req.body;
-        if(req.file){
-            newProduct.thumbnail = req.file.path;
-        } else {
-            newProduct.thumbnail = "Sin imagen.";
-        }
-        const product = await Service.addProduct(newProduct);
-        res.status(200).json({
-            status: "success",
-            message: "Product successfully added.",
-            data: product
-        });
-    }
-    catch (error) {
-        res.status(409).json({
-            status: "error",
-            message: error.message,
-            data: {},
-        });
-    }
-});
+productsRouter.put("/:pid", productsController.updateProduct);
 
-productsRouter.put("/:pid", async (req, res) => {
-    try {
-        const idProd = req.params.pid;
-        const updateProduct = req.body;
-        const productUpdated = await Service.updateProduct(idProd, updateProduct);
-        res.status(200).json({
-            status: "success",
-            message: "Product successfully modified.",
-            data: productUpdated
-        });
-    }
-    catch (error) {
-        res.status(409).json({
-            status: "error",
-            message: error.message,
-            data: {}
-        });
-    }
-});
+productsRouter.delete("/:pid", productsController.deleteProduct);
 
-productsRouter.delete("/:pid", async (req, res) => {
-    try {
-        const idToDelete = req.params.pid;
-        const deleteProduct = await Service.deleteProduct(idToDelete);
-        return res.status(200).json({
-            status: "success",
-            message: "Product successfully deleted.",
-            data: deleteProduct
-        });
-    }
-    catch (error) {
-        return res.status(409).json({
-            status: "error",
-            message: error.message,
-            data: {}
-        });
-    }
-});
+export default productsRouter;
+
 
 // ENDPOINTS PRODUCTS WITH FILE SYSTEM
 
+//import productManager from "../DAO/ProductManager.js";
+
 // productsRouter.get("/", async (req, res) => {
-//     const limit = req.query.limit;
+    //     const limit = req.query.limit;
 //     const products = await productManager.getProducts();
 
 //     if(!limit) {
 //         return res.status(200).json({
-//             status: "success",
+    //             status: "success",
 //             message: "List of products.",
 //             data: products
 //         });
 //     } else if (limit > products.length) {
-//         return res.status(409).json({
-//             status: "error",
-//             message: "The entered limit is higher than the number of products.",
+    //         return res.status(409).json({
+        //             status: "error",
+        //             message: "The entered limit is higher than the number of products.",
 //             data: {}
 //         });
 //     } else {
-//         return res.status(200).json({
-//             status: "success",
+    //         return res.status(200).json({
+        //             status: "success",
 //             message: `The first ${limit} products of the list.`,
 //             data: products.slice(0, limit)
 //         });
@@ -227,5 +127,3 @@ productsRouter.delete("/:pid", async (req, res) => {
 //         });
 //     };
 // });
-
-export default productsRouter;

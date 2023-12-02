@@ -10,4 +10,4 @@ const userSchema = new Schema({
   role: { type: String, required: true, max: 100, default: "user" }
 });
 
-export const userModel = model('users', userSchema);
+export const usersModel = model('users', userSchema);

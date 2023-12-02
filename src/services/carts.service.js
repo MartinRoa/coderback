@@ -1,11 +1,9 @@
-import { cartModel } from "../DAO/models/cart.model.js";
-import ProductService from "./products.service.js";
+import { cartsModel } from "../DAO/models/carts.model.js";
+import { productsService } from "./products.service.js";
 
-const productService = new ProductService;
-
-class CartService {
+class CartsService {
     async newCart() {
-        const cartCreated = await cartModel.create({products: []});
+        const cartCreated = await cartsModel.create({products: []});
         if (!cartCreated) {
             throw new Error("Cart could not be created.");
         }
@@ -13,7 +11,7 @@ class CartService {
     }
 
     async getCartById(idCart) {
-        const cart = await cartModel.findOne({_id: idCart});
+        const cart = await cartsModel.findOne({_id: idCart});
         if (!cart) {
             throw new Error("Cart not found.");
         }
@@ -21,13 +19,13 @@ class CartService {
     }
 
     async updateCart(idCart, updateCart){
-        const cartUptaded = await cartModel.updateOne({ _id: idCart }, updateCart);
+        const cartUptaded = await cartsModel.updateOne({ _id: idCart }, updateCart);
         return cartUptaded;
     }
 
     async addProductToCart(cid, pid, qty) {
         const cart = await this.getCartById(cid); 
-        const product = await productService.getProductById(pid);
+        const product = await productsService.getProductById(pid);
 
         if(cart && product){
             const existingProduct = cart.products.find((p) => p.product._id.toString() === pid.toString());
@@ -49,10 +47,10 @@ class CartService {
 
     async deleteProductToCart(cid, pid) {
         const cart = await this.getCartById(cid); 
-        const product = await productService.getProductById(pid);
+        const product = await productsService.getProductById(pid);
 
         if(cart && product){
-            const cartUpdated = await cartModel.updateOne({ _id: cid }, { $pull: { products: { product: pid } }});
+            const cartUpdated = await cartsModel.updateOne({ _id: cid }, { $pull: { products: { product: pid } }});
             return cartUpdated;
         } else {
             throw new Error("Cart or product not exist.");
@@ -63,7 +61,7 @@ class CartService {
         const cart = await this.getCartById(cid);
 
         if (cart) {
-            const cartUpdated = await cartModel.updateOne({ _id: cid }, { $set: { products: [] } });
+            const cartUpdated = await cartsModel.updateOne({ _id: cid }, { $set: { products: [] } });
             return cartUpdated;
         } else {
             throw new Error("Cart not exist.");
@@ -86,7 +84,7 @@ class CartService {
         const cart = await this.getCartById(cid);
 
         if(cart){
-            const cartUpdated = await cartModel.updateOne({ _id: cid, "products.product": pid }, { $set: { "products.$.quantity": newQty } });
+            const cartUpdated = await cartsModel.updateOne({ _id: cid, "products.product": pid }, { $set: { "products.$.quantity": newQty } });
             if(cartUpdated.modifiedCount === 0){
                 throw new Error('Product not exist or not is included into the cart!');
             } else {
@@ -98,4 +96,4 @@ class CartService {
     }
 }
 
-export default CartService;
+export const cartsService = new CartsService;;
