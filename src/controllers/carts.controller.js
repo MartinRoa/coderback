@@ -147,13 +147,14 @@ class CartsController {
     
             cart.products.map(prod => {
                 finalData.push({
+                    id: prod.product._id,
                     title: prod.product.title,
                     price: prod.product.price,
                     quantity: prod.quantity
                 })
             })
             
-            return res.status(200).render("cart", {finalData});
+            return res.status(200).render("cart", {cart: req.session.user.cart, finalData});
         }
         catch (error) {
             res.status(409).json({
@@ -162,6 +163,26 @@ class CartsController {
                 data: {}
             });
         }
+    }
+
+    async finalizePurchase(req, res) {
+        try {
+            const id = req.params.cid;
+            const user = req.session.user.email;
+            const purchase = await cartsService.finalizePurchase(id, user);
+            res.status(200).json({
+                status: "success",
+                message: "Purchase successfully completed.",
+                data: purchase
+            });
+        }
+        catch (error) {
+            res.status(409).json({
+                status: "error",
+                message: error.message,
+                data: {}
+            });
+        }   
     }
 }
 

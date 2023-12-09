@@ -6,7 +6,9 @@
     Perfil de Usuario
 {{/if}}
 </a></h3>
-<h5><a href="/auth/logout">Cerrar sesión</a></h5>
+<h3><a href="/cart/{{finalData.cart}}">Ir al carrito</a></h3>
+<h3><a href="/chat">Chat</a></h3>
+<h5><a method='delete' href="/auth/logout">Cerrar sesión</a></h5>
 <div class="products">
     <h1 class="products__title">Lista de productos:</h1>
     <div class="products__container">
@@ -18,7 +20,7 @@
             <li class="list__item">Precio: {{price}}</li>
             <li class="list__item">Stock: {{stock}}</li>
             <li class="list__item">Categoría: {{category}}</li>
-            <button>Agregar al carrito</button>
+            <button data-cart="{{../finalData.cart}}" data-id="{{id}}" onclick="addToCart(this)">Agregar al carrito</button>
         </ul>
     {{/each}}
     </div>
@@ -32,3 +34,4 @@
         <a href={{finalData.nextLink}} class="pagination__link">{{finalData.nextPage}}</a>
     {{/if}}
 </div>
+<script src="/js/ecommerce.js"></script>

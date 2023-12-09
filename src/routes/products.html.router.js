@@ -1,11 +1,11 @@
 import { Router } from "express";
-import { isUser } from "../middlewares/auth.js";
+import { isActiveSession } from "../middlewares/auth.js";
 import { productsController } from "../controllers/products.controller.js";
 
 const productsHTMLRouter = Router();
 
-// ENDPOINTS PRODUCTS WITH MONGODB
+// ENDPOINTS PRODUCTS HTML
 
-productsHTMLRouter.get("/", isUser, productsController.showProductsList);
+productsHTMLRouter.get("/", isActiveSession, productsController.showProductsList);
 
 export default productsHTMLRouter;

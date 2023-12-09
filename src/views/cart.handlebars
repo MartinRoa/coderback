@@ -6,9 +6,12 @@
             <li class="list__item">Producto: {{title}}</li>
             <li class="list__item">Precio: {{price}}</li>
             <li class="list__item">Quantity: {{quantity}}</li>
-            <button>Eliminar</button>
+            <button data-cart="{{../cart}}" data-id="{{id}}" onclick="deleteToCart(this)">Eliminar</button>
         </ul>
     {{/each}}
     </div>
-    <button>Vaciar Carrito</button>
+    <button><a href="/cart/{{cart}}/purchase">Finalizar compra</a></button>
+    <button onclick="emptyCart('{{cart}}')">Vaciar Carrito</button>
+    <button><a href="/products">Seguir comprando</a></button>
 </div>
+<script src="/js/ecommerce.js"></script>

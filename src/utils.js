@@ -38,3 +38,14 @@ export async function connectMongoDB() {
 import bcrypt from 'bcrypt';
 export const createHash = (password) => bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 export const isValidPassword = (password, hashPassword) => bcrypt.compareSync(password, hashPassword);
+
+// CODE GENERATOR
+export function codeGenerator(array) {
+  let newCode;
+  if(array.length){
+      newCode = parseInt(array[array.length - 1].code) + 1;
+  } else {
+      newCode = 1;
+  }
+  return newCode;
+}

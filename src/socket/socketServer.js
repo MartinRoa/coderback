@@ -1,8 +1,7 @@
 import { Server } from "socket.io";
-import productManager from "../DAO/ProductManager.js";
-import MsgService from "../services/messages.service.js";
+import productManager from "../DAO/fileSystem/products.fileSystem.js";
+import { msgService } from "../services/messages.service.js";
 
-const msgService = new MsgService();
 let io;
 
 export function initializeSocket(server) {

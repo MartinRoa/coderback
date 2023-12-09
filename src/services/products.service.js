@@ -1,6 +1,10 @@
-import { productsModel } from "../DAO/models/products.model.js";
+import { Products } from "../DAO/factory.js";
 
 class ProductsService {
+    constructor(dao) {
+        this.dao = dao;
+    }
+
     validateProduct(product) {
         const { title, description, code, price, status, stock, category, thumbnail } = product
         if (!title || !description || !code || !price || !status || !stock || !category || !thumbnail) {
@@ -12,7 +16,7 @@ class ProductsService {
     }
 
     async getProducts(){
-        const products = await productsModel.find({});
+        const products = await this.dao.getProducts();
         if (!products) {
             throw new Error("List of products cannot be showed.");
         }
@@ -20,7 +24,7 @@ class ProductsService {
     }
 
     async getProductById(idProd){
-        const product = await productsModel.findOne({_id: idProd});
+        const product = await this.dao.getProductById(idProd);
         if (!product) {
             throw new Error('Product not found.');
         }
@@ -30,7 +34,7 @@ class ProductsService {
     async addProduct(newProduct){
         newProduct.status = true;
         this.validateProduct(newProduct);
-        const productCreated = await productsModel.create(newProduct);
+        const productCreated = await this.dao.addProduct(newProduct);
         if (!productCreated) {
             throw new Error("The entered product already exists, or the information provided is incomplete.");
         }
@@ -38,7 +42,7 @@ class ProductsService {
     }
 
     async updateProduct(idProd, updateProduct){
-        const productUptaded = await productsModel.updateOne({ _id: idProd }, updateProduct);
+        const productUptaded = await this.dao.updateProduct(idProd , updateProduct);
 
         if (productUptaded) {
             if(productUptaded.modifiedCount === 0){
@@ -51,7 +55,7 @@ class ProductsService {
     }
 
     async deleteProduct(idProd){
-        const deleted = await productsModel.deleteOne({ _id: idProd });
+        const deleted = await this.dao.deleteProduct(idProd);
         if (deleted) {
             if(deleted.deletedCount === 0){
                 throw new Error('Product not exist.');
@@ -79,7 +83,7 @@ class ProductsService {
             sortOption = { price: -1 };
         }
     
-        const result = await productsModel.paginate(filter, {page: page || 1, limit: limit || 10, sort: sortOption, lean: true});
+        const result = await this.dao.showProductsList(filter, page, limit, sortOption);
           
         if(isNaN(result.page) || page <= 0){
             return res.status(409).json({
@@ -109,10 +113,11 @@ class ProductsService {
             prevLink: prevLinkURL,
             nextLink: nextLinkURL,
             userName: req.session.user.firstName,
-            isAdmin: req.session.user.isAdmin
+            isAdmin: req.session.user.isAdmin,
+            cart: req.session.user.cart
         };
         return finalData;
     }
 }
 
-export const productsService = new ProductsService();
+export const productsService = new ProductsService(Products);

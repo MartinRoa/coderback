@@ -2,9 +2,10 @@ import passport from 'passport';
 import local from 'passport-local';
 import GitHubStrategy from 'passport-github2';
 import { createHash, isValidPassword } from '../utils.js';
-import { usersModel } from '../DAO/models/users.model.js';
 import { cartsService } from '../services/carts.service.js';
-import { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, GITHUB_CALLBACK_URL } from '../config.js';
+import config from '../config.js';
+import { userService } from '../services/users.service.js';
+
 const LocalStrategy = local.Strategy;
 
 export function initializePassport() {
@@ -12,7 +13,7 @@ passport.use(
     'login',
     new LocalStrategy({ usernameField: 'email' }, async (username, password, done) => {
         try {
-            const user = await usersModel.findOne({ email: username });
+            const user = await userService.getUserByUsername(username);
             if (!user) {
                 console.log('User Not Found with username (email) ' + username);
                 return done(null, false);
@@ -39,7 +40,7 @@ passport.use(
         async (req, username, password, done) => {
             try {
                 const { email, firstName, lastName, age } = req.body;
-                let user = await usersModel.findOne({ email: username });
+                let user = await userService.getUserByUsername(username);
                 if (user) {
                     console.log('User already exists');
                     return done(null, false);
@@ -55,7 +56,7 @@ passport.use(
                     cart: createCart._id,
                     password: createHash(password),
                 };
-                let userCreated = await usersModel.create(newUser);
+                let userCreated = await userService.newUser(newUser);
                 console.log('User Registration successful');
                 return done(null, userCreated);
             } catch (e) {
@@ -71,9 +72,9 @@ passport.use(
     'github',
     new GitHubStrategy(
         {
-            clientID: GITHUB_CLIENT_ID,
-            clientSecret: GITHUB_CLIENT_SECRET,
-            callbackURL: GITHUB_CALLBACK_URL
+            clientID: config.gitHubClientID,
+            clientSecret: config.gitHubClientSecret,
+            callbackURL: config.gitHubCallbackURL
         },
         async (accesToken, _, profile, done) => {
             try {
@@ -92,7 +93,7 @@ passport.use(
             }
             profile.email = emailDetail.email;
 
-            let user = await usersModel.findOne({ email: profile.email });
+            let user = await userService.getUserByUsername(profile.email);
             if (!user) {
                 const createCart = await cartsService.newCart();
                 const newUser = {
@@ -103,7 +104,7 @@ passport.use(
                 cart: createCart._id,
                 password: '',
                 };
-                let userCreated = await usersModel.create(newUser);
+                let userCreated = await userService.newUser(newUser);
                 console.log('User Registration succesful');
                 return done(null, userCreated);
             } else {
@@ -124,7 +125,7 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser(async (id, done) => {
-    let user = await usersModel.findById(id);
+    let user = await userService.getUserById(id);
     done(null, user);
 });
 }

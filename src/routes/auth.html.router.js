@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { isAdmin, isUser, adminAuthentication, passportLogIn, passportRegister } from '../middlewares/auth.js';
+import { isAdmin, isActiveSession, adminAuthentication, passportLogIn, passportRegister } from '../middlewares/auth.js';
 import { sessionsController } from "../controllers/sessions.controller.js";
 
 const authHTMLRouter = Router();
 
-// ENDPOINTS LOG IN/LOG OUT WITH MONGODB
+// ENDPOINTS LOG IN/LOG OUT
 
 authHTMLRouter.get('/login', sessionsController.checkLogIn);
 
@@ -18,10 +18,10 @@ authHTMLRouter.post('/register', passportRegister, sessionsController.userRegist
 
 authHTMLRouter.get('/failregister', sessionsController.failRegister);
 
-authHTMLRouter.get('/profile', isUser, sessionsController.showProfile);
+authHTMLRouter.get('/profile', isActiveSession, sessionsController.showProfile);
 
 authHTMLRouter.get('/logout', sessionsController.logOut);
 
-authHTMLRouter.get('/administration', isUser, isAdmin, sessionsController.showAdministrationPage);
+authHTMLRouter.get('/administration', isActiveSession, isAdmin, sessionsController.showAdministrationPage);
 
 export default authHTMLRouter;

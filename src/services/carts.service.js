@@ -1,9 +1,14 @@
-import { cartsModel } from "../DAO/models/carts.model.js";
+import { Carts } from "../DAO/factory.js";
 import { productsService } from "./products.service.js";
+import { ticketsService } from "./tickets.service.js";
 
 class CartsService {
+    constructor(dao) {
+        this.dao = dao;
+    }
+
     async newCart() {
-        const cartCreated = await cartsModel.create({products: []});
+        const cartCreated = await this.dao.newCart();
         if (!cartCreated) {
             throw new Error("Cart could not be created.");
         }
@@ -11,7 +16,7 @@ class CartsService {
     }
 
     async getCartById(idCart) {
-        const cart = await cartsModel.findOne({_id: idCart});
+        const cart = await this.dao.getCartById(idCart);
         if (!cart) {
             throw new Error("Cart not found.");
         }
@@ -19,7 +24,7 @@ class CartsService {
     }
 
     async updateCart(idCart, updateCart){
-        const cartUptaded = await cartsModel.updateOne({ _id: idCart }, updateCart);
+        const cartUptaded = await this.dao.updateCart(idCart , updateCart);
         return cartUptaded;
     }
 
@@ -50,7 +55,7 @@ class CartsService {
         const product = await productsService.getProductById(pid);
 
         if(cart && product){
-            const cartUpdated = await cartsModel.updateOne({ _id: cid }, { $pull: { products: { product: pid } }});
+            const cartUpdated = await this.dao.deleteProductToCart(cid, pid);
             return cartUpdated;
         } else {
             throw new Error("Cart or product not exist.");
@@ -61,7 +66,7 @@ class CartsService {
         const cart = await this.getCartById(cid);
 
         if (cart) {
-            const cartUpdated = await cartsModel.updateOne({ _id: cid }, { $set: { products: [] } });
+            const cartUpdated = await this.dao.emptyCart(cid);
             return cartUpdated;
         } else {
             throw new Error("Cart not exist.");
@@ -84,7 +89,7 @@ class CartsService {
         const cart = await this.getCartById(cid);
 
         if(cart){
-            const cartUpdated = await cartsModel.updateOne({ _id: cid, "products.product": pid }, { $set: { "products.$.quantity": newQty } });
+            const cartUpdated = await this.dao.updateProductQty(cid, pid, newQty);
             if(cartUpdated.modifiedCount === 0){
                 throw new Error('Product not exist or not is included into the cart!');
             } else {
@@ -94,6 +99,31 @@ class CartsService {
             throw new Error('Cart not exist.');
         }
     }
+
+    async finalizePurchase(cid, user) {
+        const cart = await this.getCartById(cid);
+        const outOfStock = [];
+
+        if(cart) {
+            const createTicket = await ticketsService.createTicket(user);
+            for (const prod of cart.products) {
+                const product = await productsService.getProductById(prod.product._id);
+                if(product.stock >= prod.quantity) {
+                    await productsService.updateProduct(product._id, { stock: product.stock - prod.quantity});
+                    const amount = product.price * prod.quantity;
+                    await ticketsService.updateTicketAmount(createTicket._id, amount);
+                    await this.deleteProductToCart(cid, product._id);
+                } else {
+                    outOfStock.push(prod.product.title);
+                }
+            }
+            const finalTicket = await ticketsService.getTicketById(createTicket._id);
+            const finalizedPurchase = {...finalTicket._doc, outOfStock: outOfStock}
+            return finalizedPurchase;
+        } else {
+            throw new Error('Cart not exist.');
+        }
+    }
 }
 
-export const cartsService = new CartsService;;
+export const cartsService = new CartsService(Carts);

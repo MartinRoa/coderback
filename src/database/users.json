@@ -1,0 +1,10 @@
+[
+    {
+        "_id": "1",
+        "email": "test@gmail.com",
+        "firstName": "testName",
+        "age": "34",
+        "password": "$2b$10$jjiZUwkSfO86dBPzpTDMZ.3J2iKOv1rp5HN9tNAdlLnXrX1oQ6CE2",
+        "role": "user"
+    }
+]

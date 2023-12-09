@@ -2,26 +2,32 @@ import express from "express";
 import handlebars from "express-handlebars";
 import apiRouter from "./routes/api.router.js";
 import viewsRouter from "./routes/views.router.js";
-import { __dirname, connectMongoDB } from "./utils.js";
+import { __dirname } from "./utils.js";
 import { initializeSocket } from "./socket/socketServer.js";
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import { initializePassport } from "./config/passport.config.js";
 import passport from "passport";
-import { MONGODB_URL, PORT } from "./config.js";
+import config from "./config.js";
+import cors from 'cors';
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
+app.use(
+    cors({
+      origin: "http://localhost:8080/",
+      methods: ["GET", "POST", "PUT"],
+    })
+);
 
-const httpServer = app.listen(PORT, () => {
-    console.log(`Example app listening on port http://localhost:${PORT}`)
+const httpServer = app.listen(config.port, () => {
+    console.log(`Example app listening on port http://localhost:${config.port}`)
 });
 
-connectMongoDB();
 initializeSocket(httpServer);
 
 app.engine("handlebars", handlebars.engine());
@@ -31,7 +37,7 @@ app.set("view engine", "handlebars");
 app.use(cookieParser());
 app.use(
     session({
-      store: MongoStore.create({ mongoUrl: MONGODB_URL, ttl: 7200 }),
+      store: MongoStore.create({ mongoUrl: config.mongodbURL, ttl: 7200 }),
       secret: '...',
       resave: true,
       saveUninitialized: true,
