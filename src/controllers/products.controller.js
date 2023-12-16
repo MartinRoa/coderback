@@ -49,7 +49,7 @@ class ProductsController {
         }
     }
 
-    async addProduct(req, res) {
+    async addProduct(req, res, next) {
         try {
             const newProduct = req.body;
             if(req.file){
@@ -65,11 +65,7 @@ class ProductsController {
             });
         }
         catch (error) {
-            res.status(409).json({
-                status: "error",
-                message: error.message,
-                data: {},
-            });
+            next(error);
         }
     }
 

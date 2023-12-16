@@ -11,7 +11,7 @@ productsRouter.get("/", productsController.getProducts);
 
 productsRouter.get("/:pid", productsController.getProductById);
 
-productsRouter.post("/", isAdmin, uploader.single("thumbnail"), productsController.addProduct);
+productsRouter.post("/", uploader.single("thumbnail"), productsController.addProduct);
 
 productsRouter.put("/:pid", isAdmin, productsController.updateProduct);
 

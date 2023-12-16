@@ -2,7 +2,7 @@ import express from "express";
 import handlebars from "express-handlebars";
 import apiRouter from "./routes/api.router.js";
 import viewsRouter from "./routes/views.router.js";
-import { __dirname } from "./utils.js";
+import { __dirname, generateMockingProducts } from "./utils.js";
 import { initializeSocket } from "./socket/socketServer.js";
 import cookieParser from "cookie-parser";
 import session from "express-session";
@@ -11,6 +11,7 @@ import { initializePassport } from "./config/passport.config.js";
 import passport from "passport";
 import config from "./config.js";
 import cors from 'cors';
+import errorHandler from './middlewares/error.js';
 
 const app = express();
 
@@ -52,6 +53,13 @@ app.use(passport.session());
 app.use("/api", apiRouter);
 // HTML RENDER SERVER SIDE
 app.use("/", viewsRouter);
+// MOCKING ENDPOINT
+app.get("/mockingproducts", async (req, res) => {
+    const products = generateMockingProducts(100);
+    res.send({ status: "success", payload: products });
+});
+// ERROR MIDDLEWARE
+app.use(errorHandler);
 
 
 app.get("*", async (req, res) => {

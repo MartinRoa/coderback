@@ -49,3 +49,32 @@ export function codeGenerator(array) {
   }
   return newCode;
 }
+
+// MOCKING PRODUCT GENERATOR
+import { faker } from "@faker-js/faker";
+
+faker.local = "es";
+
+const newMockingProduct = () => {
+  return {
+    id: faker.database.mongodbObjectId(),
+    title: faker.commerce.productName(),
+    description: faker.commerce.productDescription(),
+    code: faker.string.alphanumeric(8),
+    price: faker.commerce.price(),
+    status: faker.datatype.boolean(),
+    stock: faker.number.int(100),
+    category: faker.commerce.department(),
+    thumbnail: faker.image.url(),
+  };
+};
+
+export const generateMockingProducts = (qty) => {
+  const products = [];
+    
+  for (let i = 0; i < qty; i++) {
+    products.push(newMockingProduct());
+  }
+
+  return products;
+};

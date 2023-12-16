@@ -1,19 +1,22 @@
 import { Products } from "../DAO/factory.js";
+import CustomError from "./errors/CustomError.js";
+import EErrors from "./errors/enums.js";
+import { generateProductErrorInfo } from "./errors/info.js";
 
 class ProductsService {
     constructor(dao) {
         this.dao = dao;
     }
 
-    validateProduct(product) {
-        const { title, description, code, price, status, stock, category, thumbnail } = product
-        if (!title || !description || !code || !price || !status || !stock || !category || !thumbnail) {
-            console.log('validation error: please complete title, description, code, price, status, stock, category and thumbnail.');
-            throw new Error('validation error: please complete title, description, code, price, status, stock, category and thumbnail.');
-        } else {
-            console.log('Product validated.');
-        }
-    }
+    // validateProduct(product) {
+    //     const { title, description, code, price, status, stock, category, thumbnail } = product
+    //     if (!title || !description || !code || !price || !status || !stock || !category || !thumbnail) {
+    //         console.log('validation error: please complete title, description, code, price, status, stock, category and thumbnail.');
+    //         throw new Error('validation error: please complete title, description, code, price, status, stock, category and thumbnail.');
+    //     } else {
+    //         console.log('Product validated.');
+    //     }
+    // }
 
     async getProducts(){
         const products = await this.dao.getProducts();
@@ -33,7 +36,18 @@ class ProductsService {
 
     async addProduct(newProduct){
         newProduct.status = true;
-        this.validateProduct(newProduct);
+        // this.validateProduct(newProduct);
+        
+        const { title, description, code, price, stock, category, thumbnail } = newProduct
+        if (!title || !description || !code || !price || !stock || !category || !thumbnail) {
+            CustomError.createError({
+                name: "Product creation error",
+                cause: generateProductErrorInfo(newProduct),
+                message: "Create a new product error. Check all the necessary properties and try again.",
+                code: EErrors.NEW_PRODUCT_DATA_INCOMPLETE
+            });
+        };
+
         const productCreated = await this.dao.addProduct(newProduct);
         if (!productCreated) {
             throw new Error("The entered product already exists, or the information provided is incomplete.");
