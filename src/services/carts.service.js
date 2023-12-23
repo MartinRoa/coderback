@@ -1,4 +1,5 @@
 import { Carts } from "../DAO/factory.js";
+import { logger } from "../utils.js";
 import { productsService } from "./products.service.js";
 import { ticketsService } from "./tickets.service.js";
 
@@ -10,6 +11,7 @@ class CartsService {
     async newCart() {
         const cartCreated = await this.dao.newCart();
         if (!cartCreated) {
+            logger.error("Cart could not be created.");
             throw new Error("Cart could not be created.");
         }
         return cartCreated;
@@ -18,6 +20,7 @@ class CartsService {
     async getCartById(idCart) {
         const cart = await this.dao.getCartById(idCart);
         if (!cart) {
+            logger.error("Cart not found.");
             throw new Error("Cart not found.");
         }
         return cart;
@@ -46,6 +49,7 @@ class CartsService {
             const cartUpdated = await this.updateCart(cid, cart);
             return cartUpdated;
         } else {
+            logger.error("Cart or product not exist.");
             throw new Error("Cart or product not exist.");
         }
     }
@@ -58,6 +62,7 @@ class CartsService {
             const cartUpdated = await this.dao.deleteProductToCart(cid, pid);
             return cartUpdated;
         } else {
+            logger.error("Cart or product not exist.");
             throw new Error("Cart or product not exist.");
         }
     }
@@ -69,6 +74,7 @@ class CartsService {
             const cartUpdated = await this.dao.emptyCart(cid);
             return cartUpdated;
         } else {
+            logger.error("Cart not exist.");
             throw new Error("Cart not exist.");
         }
     }
@@ -81,6 +87,7 @@ class CartsService {
             }
             return await this.getCartById(idCart);
         } else {
+            logger.error("Cart not found or invalid information.");
             throw new Error("Cart not found or invalid information.");
         }
     }
@@ -91,11 +98,13 @@ class CartsService {
         if(cart){
             const cartUpdated = await this.dao.updateProductQty(cid, pid, newQty);
             if(cartUpdated.modifiedCount === 0){
+                logger.error('Product not exist or not is included into the cart!');
                 throw new Error('Product not exist or not is included into the cart!');
             } else {
                 return cartUpdated;
             }
         } else {
+            logger.error("Cart not exist.");
             throw new Error('Cart not exist.');
         }
     }
@@ -121,6 +130,7 @@ class CartsService {
             const finalizedPurchase = {...finalTicket._doc, outOfStock: outOfStock}
             return finalizedPurchase;
         } else {
+            logger.error("Cart not exist.");
             throw new Error('Cart not exist.');
         }
     }

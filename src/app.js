@@ -2,7 +2,7 @@ import express from "express";
 import handlebars from "express-handlebars";
 import apiRouter from "./routes/api.router.js";
 import viewsRouter from "./routes/views.router.js";
-import { __dirname, generateMockingProducts } from "./utils.js";
+import { __dirname, generateMockingProducts, logger } from "./utils.js";
 import { initializeSocket } from "./socket/socketServer.js";
 import cookieParser from "cookie-parser";
 import session from "express-session";
@@ -26,7 +26,7 @@ app.use(
 );
 
 const httpServer = app.listen(config.port, () => {
-    console.log(`Example app listening on port http://localhost:${config.port}`)
+    logger.info(`App listening on port http://localhost:${config.port}`);
 });
 
 initializeSocket(httpServer);
@@ -60,7 +60,16 @@ app.get("/mockingproducts", async (req, res) => {
 });
 // ERROR MIDDLEWARE
 app.use(errorHandler);
-
+// LOGGER TEST
+app.get("/loggerTest", async (req, res) => {
+    logger.debug("Test logger de debug");
+    logger.http("Test logger de http");
+    logger.info("Test logger de info");
+    logger.warning("Test logger de warning");
+    logger.error("Test logger de error1");
+    logger.fatal("Test logger de fatal1");
+    res.json({message: "Logger Test"})
+});
 
 app.get("*", async (req, res) => {
     return res.status(404).json({

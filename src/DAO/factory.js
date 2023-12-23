@@ -1,5 +1,5 @@
 import config from '../config.js';
-import { connectMongoDB } from '../utils.js';
+import { connectMongoDB, logger } from '../utils.js';
 
 export let Carts;
 export let Messages;
@@ -9,7 +9,7 @@ export let Tickets;
 
 switch (config.persistence) {
   case 'MONGO':
-    console.log('Persistence with Mongo');
+    logger.info('Persistence with Mongo');
     connectMongoDB();
     const { default: CartsMongo } = await import('./mongo/carts.mongo.js');
     Carts = CartsMongo;
@@ -24,7 +24,7 @@ switch (config.persistence) {
 
     break;
   case 'FILE SYSTEM':
-    console.log('Persistence with File System');
+    logger.info('Persistence with File System');
     const { default: CartsFileSystem } = await import('./fileSystem/carts.fileSystem.js');
     Carts = CartsFileSystem;
     const { default: MsgsFileSystem } = await import('./fileSystem/messages.fileSystem.js');

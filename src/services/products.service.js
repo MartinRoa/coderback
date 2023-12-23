@@ -1,4 +1,5 @@
 import { Products } from "../DAO/factory.js";
+import { logger } from "../utils.js";
 import CustomError from "./errors/CustomError.js";
 import EErrors from "./errors/enums.js";
 import { generateProductErrorInfo } from "./errors/info.js";
@@ -21,6 +22,7 @@ class ProductsService {
     async getProducts(){
         const products = await this.dao.getProducts();
         if (!products) {
+            logger.error("List of products cannot be showed.");
             throw new Error("List of products cannot be showed.");
         }
         return products;
@@ -29,6 +31,7 @@ class ProductsService {
     async getProductById(idProd){
         const product = await this.dao.getProductById(idProd);
         if (!product) {
+            logger.error('Product not found.');
             throw new Error('Product not found.');
         }
         return product;
@@ -40,6 +43,7 @@ class ProductsService {
         
         const { title, description, code, price, stock, category, thumbnail } = newProduct
         if (!title || !description || !code || !price || !stock || !category || !thumbnail) {
+            logger.error("Product creation error");
             CustomError.createError({
                 name: "Product creation error",
                 cause: generateProductErrorInfo(newProduct),
@@ -50,6 +54,7 @@ class ProductsService {
 
         const productCreated = await this.dao.addProduct(newProduct);
         if (!productCreated) {
+            logger.error("The entered product already exists, or the information provided is incomplete.");
             throw new Error("The entered product already exists, or the information provided is incomplete.");
         }
         return productCreated;
@@ -60,10 +65,12 @@ class ProductsService {
 
         if (productUptaded) {
             if(productUptaded.modifiedCount === 0){
-                throw new Error('Product not found or invalid information.');
+                logger.error("Product not found or invalid information.");
+                throw new Error("Product not found or invalid information.");
             }
             return productUptaded;
         } else {
+            logger.error("Product not found or invalid information.");
             throw new Error("Product not found or invalid information.");
         }
     }
@@ -72,11 +79,13 @@ class ProductsService {
         const deleted = await this.dao.deleteProduct(idProd);
         if (deleted) {
             if(deleted.deletedCount === 0){
+                logger.error('Product not exist.');
                 throw new Error('Product not exist.');
             } else {
                 return deleted;
             }
         } else {
+            logger.error("Product not found.");
             throw new Error("Product not found.");
         }
     }
@@ -100,11 +109,13 @@ class ProductsService {
         const result = await this.dao.showProductsList(filter, page, limit, sortOption);
           
         if(isNaN(result.page) || page <= 0){
+            logger.error("Invalid page number.");
             return res.status(409).json({
                 status: "error",
                 message: "Invalid page number.",
             });
         } else if(result.page > result.totalPages) {
+            logger.error("Page number exceeds total pages.");
             return res.status(409).json({
                 status: "error",
                 message: "Page number exceeds total pages.",

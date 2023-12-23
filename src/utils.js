@@ -27,9 +27,9 @@ export async function connectMongoDB() {
     await connect(
       process.env.MONGODB_URL
     );
-    console.log('Plug to mongo!');
+    logger.info('Plug to mongo!');
   } catch (e) {
-    console.log(e);
+    logger.fatal(e);
     throw 'Cannot connect to the db.';
   }
 }
@@ -51,7 +51,7 @@ export function codeGenerator(array) {
 }
 
 // MOCKING PRODUCT GENERATOR
-import { faker } from "@faker-js/faker";
+import { faker } from '@faker-js/faker';
 
 faker.local = "es";
 
@@ -78,3 +78,77 @@ export const generateMockingProducts = (qty) => {
 
   return products;
 };
+
+// LOGGER CONFIG
+import winston from 'winston';
+import config from "./config.js";
+
+const customLevels = {
+  levels: {
+    fatal: 0,
+    error: 1,
+    warning: 2,
+    info: 3,
+    http: 4,
+    debug: 5,
+  },
+  colors: {
+    fatal: 'bold underline red',
+    error: "red",
+    warning: "yellow",
+    info: "green",
+    http: "cyan",
+    debug: "blue",
+  },
+};
+
+winston.addColors(customLevels.colors);
+
+export let logger;
+
+switch (config.environment) {
+  case 'DEVELOPMENT':
+    const loggerDev = winston.createLogger({
+      levels: customLevels.levels,
+      format: winston.format.combine(
+        winston.format.timestamp(),
+        winston.format.prettyPrint()),
+      
+      transports: [
+        new winston.transports.Console({
+          level: "debug",
+          format: winston.format.combine(winston.format.colorize({ all: true })),
+        }),
+        new winston.transports.File({
+          filename: "src/database/errors.log",
+          level: "error",
+        }),
+      ]
+    });
+    logger = loggerDev;
+
+    break;
+  case 'PRODUCTION':
+    const loggerProd = winston.createLogger({
+      levels: customLevels.levels,
+      format: winston.format.combine(
+        winston.format.timestamp(),
+        winston.format.prettyPrint()),
+      
+      transports: [
+        new winston.transports.Console({
+          level: "info",
+          format: winston.format.combine(winston.format.colorize({ all: true })),
+        }),
+        new winston.transports.File({
+          filename: "src/database/errors.log",
+          level: "error",
+        }),
+      ]
+    });
+    logger = loggerProd;
+
+    break;
+  default:
+    break;
+}

@@ -1,6 +1,7 @@
 import { Server } from "socket.io";
 import productManager from "../DAO/fileSystem/products.fileSystem.js";
 import { msgService } from "../services/messages.service.js";
+import { logger } from "../utils.js";
 
 let io;
 
@@ -8,7 +9,7 @@ export function initializeSocket(server) {
     io = new Server(server);
 
     io.on("connection", (socket) => {
-        console.log("New client connected: " + socket.id);
+        logger.http("New client connected: " + socket.id);
 
         socket.on("createProduct", async (data) => {
             const addProduct = await productManager.addProduct(data);
@@ -18,7 +19,7 @@ export function initializeSocket(server) {
                 const product = products.find((prod) => prod.code === data.code);
                 io.emit("updateList", product);
             } else {
-                console.log("The entered product already exists, or the information provided is incomplete.");
+                logger.error("The entered product already exists, or the information provided is incomplete.");
             }
         })
 

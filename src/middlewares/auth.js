@@ -1,10 +1,12 @@
 import config from "../config.js";
 import passport from "passport";
+import { logger } from "../utils.js";
 
 export function isActiveSession(req, res, next) {
     if (req.session?.user) {
         return next();
     }
+    logger.error('Error de autenticacion!');
     return res.status(401).render('error', { error: 'Error de autenticacion!' });
 }
 
@@ -13,6 +15,7 @@ export function isUser(req, res, next) {
     if (req.session.user.cart === cartUser) {
         return next();
     }
+    logger.error('Error de autorización!');
     return res.status(403).render('error', { error: 'Error de autorización!' });
 }
   
@@ -20,6 +23,7 @@ export function isAdmin(req, res, next) {
     if (req.session?.user.role === "admin") {
         return next();
     }
+    logger.error('Error de autorización!');
     return res.status(403).render('error', { error: 'Error de autorización!' });
 }
 

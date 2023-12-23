@@ -4,6 +4,7 @@ dotenv.config();
 
 export default {
     port: process.env.PORT,
+    environment: process.env.ENVIRONMENT,
     persistence: process.env.PERSISTENCE,
     mongodbURL: process.env.MONGODB_URL, 
     gitHubClientID: process.env.GITHUB_CLIENT_ID,

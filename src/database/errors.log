@@ -1,0 +1,21 @@
+
+{
+  message: 'error1',
+  level: 'error',
+  timestamp: '2023-08-11T15:15:01.232Z'
+}
+{
+  message: 'fatal1',
+  level: 'fatal',
+  timestamp: '2023-08-11T15:15:01.239Z'
+}
+{
+  message: 'Test logger de error1',
+  level: 'error',
+  timestamp: '2023-08-12T17:14:54.466Z'
+}
+{
+  message: 'Test logger de fatal1',
+  level: 'fatal',
+  timestamp: '2023-08-12T17:14:54.467Z'
+}
