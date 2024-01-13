@@ -12,8 +12,24 @@ import passport from "passport";
 import config from "./config.js";
 import cors from 'cors';
 import errorHandler from './middlewares/error.js';
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerUiExpress from "swagger-ui-express";
 
 const app = express();
+
+const swaggerOptions = {
+    definition: {
+        openapi: "3.0.1",
+        info: {
+            title: "Documentación del ecommerce",
+            description: "Proyecto de prueba de ecommerce. Backend - Coderhouse",
+        },
+    },
+    apis: [`${__dirname}/docs/**/*.yaml`],
+};
+
+const specs = swaggerJSDoc(swaggerOptions);
+app.use("/apidocs", swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

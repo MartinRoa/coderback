@@ -1,0 +1,275 @@
+paths:
+  /api/carts:
+    post:
+      summary: Crea un nuevo carrito
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: Carrito creado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Success"
+        "409":
+          description: No se pudo crear el carrito
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Error"
+  /api/carts/{cid}:
+    get:
+      summary: Obtiene el carrito correspondiente al id proporcionado
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito que se busca
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: Carrito encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Cart"
+        "409":
+          description: Carrito no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Error"
+    put:
+      summary: Actualiza un carrito de forma completa a partir del ID
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito a modificar
+          schema:
+            $type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/reqCart"
+      responses:
+        "200":
+          description: Carrito modificado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Success"
+        "409":
+          description: Carrito no encontrado o datos proporcionados incorrectos
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Error"
+    delete:
+      summary: Vacía un carrito a partir del ID
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito a vaciar
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: Carrito vaciado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Success"
+        "409":
+          description: Carrito no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Error"
+  /api/carts/{cid}/products/{pid}:
+    post:
+      summary: Agrega un producto al carrito a partir de los IDs
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito que se busca
+          schema:
+            $type: String
+        - name: pid
+          in: path
+          required: true
+          description: ID del producto que se quiere agregar al carrito
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: Producto agregado al carrito
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Cart"
+        "409":
+          description: Carrito o producto no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Error"
+    put:
+      summary: Modifica la cantidad de un producto en el carrito
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito
+          schema:
+            $type: String
+        - name: pid
+          in: path
+          required: true
+          description: ID del producto que se quiere modificar la cantidad
+          schema:
+            $type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/reqNewQty"
+      responses:
+        "200":
+          description: Cantidad de productos en el carrito modificada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Success"
+        "409":
+          description: Carrito/producto no encontrado o datos proporcionados incorrectos
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Error"
+    delete:
+      summary: Elimina un producto del carrito
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito
+          schema:
+            $type: String
+        - name: pid
+          in: path
+          required: true
+          description: ID del producto que se quiere eliminar del carrito
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: Producto eliminado del carrito exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Success"
+        "409":
+          description: Carrito o producto no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Error"
+components:
+  schemas:
+    Success:
+      type: object
+      properties:
+        status:
+          type: String
+          description: success
+        message:
+          type: String
+          description: Tipo de proceso realizado.
+      example:
+        status: success
+        message: Process successfully completed.
+    Error:
+      type: object
+      properties:
+        status:
+          type: String
+          description: error
+        message:
+          type: String
+          description: Error que no permitió completar el proceso.
+      example:
+        status: error
+        message: The process could not be completed.
+    Cart:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: ID auto generado by mongo
+        products:
+          type: array
+          items:
+            type: object
+            properties:
+              _id:
+                type: ObjectId
+                description: ID auto generado por mongo para el producto en el carrito
+              product:
+                type: ObjectId
+                description: ID del producto de mongo
+              quantity:
+                type: number
+                description: Cantidad del producto en el carrito
+          description: Lista de productos en el carrito
+      example:
+        _id: ObjectId("644081a93f0625dc193bc594")
+        product: ObjectId("647638a5c81506a9943178dc")
+        quantity: 2
+  requestBodies:
+    reqCart:
+      type: array
+      items:
+        type: object
+        properties:
+          product:
+            type: ObjectId
+            description: ID del producto de mongo
+          quantity:
+            type: number
+            description: Cantidad del producto en el carrito
+        description: Lista de productos en el carrito
+      example:
+        product: ObjectId("647638a5c81506a9943178dc")
+        quantity: 5
+    reqNewQty:
+      type: object
+      properties:
+        product:
+          type: ObjectId
+          description: ID del producto de mongo
+        quantity:
+          type: Number
+          description: Nueva cantidad del producto
+      description: ID del producto con la cantidad correspondiente
+      example:
+        product: ObjectId("647638a5c81506a9943178dc")
+        quantity: 5
