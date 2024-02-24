@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { isAdmin, isActiveSession, adminAuthentication, passportLogIn, passportRegister } from '../middlewares/auth.js';
+import { isAdmin, isActiveSession, passportLogIn, passportRegister } from '../middlewares/auth.js';
 import { sessionsController } from "../controllers/sessions.controller.js";
 
 const authHTMLRouter = Router();
@@ -8,7 +8,7 @@ const authHTMLRouter = Router();
 
 authHTMLRouter.get('/login', sessionsController.checkLogIn);
 
-authHTMLRouter.post('/login', adminAuthentication, passportLogIn, sessionsController.userLogIn);
+authHTMLRouter.post('/login', passportLogIn, sessionsController.userLogIn);
   
 authHTMLRouter.get('/faillogin', sessionsController.failLogIn);
 

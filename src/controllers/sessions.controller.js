@@ -57,7 +57,8 @@ class SessionsController {
             return res.status(400).render('error', { error: 'Los datos ingresados son incompletos. Por favor, complete todos los campos.' });
         }
         const userDataSession = new UserDataSessionDTO(req.user);
-        req.session.user = { ...userDataSession };
+        req.session.user = { _doc: {} }
+        req.session.user._doc = {firstName: userDataSession.firstName, email: userDataSession.email, cart: userDataSession.cart, role: userDataSession.role}
         
         return res.redirect('/products');
     }
@@ -67,7 +68,7 @@ class SessionsController {
     }
 
     showProfile(req, res) {
-        const user = { firstName: req.session.user.firstName, email: req.session.user.email, isAdmin: (req.session.user.role === "admin") ? true : false };
+        const user = { firstName: req.session.user._doc.firstName, email: req.session.user._doc.email,  isPremium: (req.session.user._doc.role === "premium") ? true : false ,isAdmin: (req.session.user._doc.role === "admin") ? true : false };
         return res.render('profile', { user: user });
     }
 

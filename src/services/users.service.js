@@ -10,6 +10,22 @@ class UsersService {
         return userCreated;
     }
 
+    async getUsers() {
+        const users = await this.dao.getUsers();
+        const usersFinal = [];
+        users.forEach(user => {
+            usersFinal.push({
+                id: user._id,
+                name: user.firstName,
+                email: user.email,
+                role: user.role,
+                isAdmin: (user.role === "admin") ? true : false,
+                isPremium: (user.role === "premium") ? true : false
+            })
+        });
+        return usersFinal;
+    }
+
     async getUserById(userId) {
         const user = await this.dao.getUserById(userId);
         return user;
@@ -20,13 +36,15 @@ class UsersService {
         return user;
     }
 
-    async updateUser(userId, updateUser){
-        const userUptaded = await this.dao.updateUser(userId, updateUser);
+    async updateUser(userId){
+        const user = await this.getUserById(userId);
+        const userNewRole = (user.role === "user") ? "premium" : "user";
+        const userUptaded = await this.dao.updateUser(userId, {role: userNewRole});
         return userUptaded;
     }
 
     async deleteUser(userId) {
-        const userDeleted = await this.dao(userId);
+        const userDeleted = await this.dao.deleteUser(userId);
         return userDeleted;
     }
 }

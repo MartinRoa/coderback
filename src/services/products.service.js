@@ -3,6 +3,7 @@ import { logger } from "../utils.js";
 import CustomError from "./errors/CustomError.js";
 import EErrors from "./errors/enums.js";
 import { generateProductErrorInfo } from "./errors/info.js";
+import config from "../config.js";
 
 class ProductsService {
     constructor(dao) {
@@ -123,8 +124,8 @@ class ProductsService {
         }
         
         const queryString = `&limit=${result.limit}&category=${encodeURIComponent(category || '')}&status=${status || ''}&sort=${sort || ''}`;
-        const prevLinkURL = result.hasPrevPage ? `http://localhost:8080/products?page=${result.prevPage + queryString}` : null;
-        const nextLinkURL = result.hasNextPage ? `http://localhost:8080/products?page=${result.nextPage + queryString}` : null;
+        const prevLinkURL = result.hasPrevPage ? `${(config.environment === "PRODUCTION") ? config.webProdURL : "http://localhost:8080"}/products?page=${result.prevPage + queryString}` : null;
+        const nextLinkURL = result.hasNextPage ? `${(config.environment === "PRODUCTION") ? config.webProdURL : "http://localhost:8080"}/products?page=${result.nextPage + queryString}` : null;
         
         const finalData = {
             status: "success",
@@ -137,9 +138,9 @@ class ProductsService {
             hasNextPage: result.hasNextPage,
             prevLink: prevLinkURL,
             nextLink: nextLinkURL,
-            userName: req.session.user.firstName,
-            isAdmin: req.session.user.isAdmin,
-            cart: req.session.user.cart
+            userName: req.session.user._doc.firstName,
+            isAdmin: (req.session.user._doc.role === "admin") ? true : false,
+            cart: req.session.user._doc.cart
         };
         return finalData;
     }

@@ -39,7 +39,7 @@ chatBox.addEventListener('keyup', ({ key }) => {
 
 //FRONT RECEIVES IN THE CHAT
 socket.on('msg_back_to_front', (msgs) => {
-  logger.debug(msgs);
+  console.log(msgs);
   let msgsFormat = '';
   msgs.forEach((msg) => {
     msgsFormat += "<div class='msgBox'>";

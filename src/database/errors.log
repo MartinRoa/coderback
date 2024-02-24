@@ -19,3 +19,158 @@
   level: 'fatal',
   timestamp: '2023-08-12T17:14:54.467Z'
 }
+{
+  message: 'Error de autenticacion!',
+  level: 'error',
+  timestamp: '2023-10-15T18:28:42.509Z'
+}
+{
+  message: 'Error de autenticacion!',
+  level: 'error',
+  timestamp: '2023-10-15T18:33:37.197Z'
+}
+{
+  message: 'Error de autenticacion!',
+  level: 'error',
+  timestamp: '2023-10-15T18:35:16.451Z'
+}
+{
+  message: 'Error de autenticacion!',
+  level: 'error',
+  timestamp: '2023-10-15T18:35:21.336Z'
+}
+{
+  message: 'Error de autorización!',
+  level: 'error',
+  timestamp: '2023-10-15T18:35:45.708Z'
+}
+{
+  message: 'Error de autorización!',
+  level: 'error',
+  timestamp: '2023-10-15T18:47:51.603Z'
+}
+{
+  message: 'User already exists',
+  level: 'error',
+  timestamp: '2023-10-15T19:00:26.959Z'
+}
+{
+  message: 'Error de autenticacion!',
+  level: 'error',
+  timestamp: '2023-10-15T19:03:12.200Z'
+}
+{
+  message: 'Error de autenticacion!',
+  level: 'error',
+  timestamp: '2023-10-15T19:03:56.096Z'
+}
+{
+  message: 'Error de autenticacion!',
+  level: 'error',
+  timestamp: '2023-10-15T19:08:58.702Z'
+}
+{
+  message: 'Error de autorización!',
+  level: 'error',
+  timestamp: '2023-10-15T19:10:18.844Z'
+}
+{
+  message: 'User already exists',
+  level: 'error',
+  timestamp: '2023-10-15T19:15:11.121Z'
+}
+{
+  message: 'Error de autorización!',
+  level: 'error',
+  timestamp: '2023-10-15T19:20:28.436Z'
+}
+{
+  message: 'Error de autenticacion!',
+  level: 'error',
+  timestamp: '2023-10-15T20:16:30.748Z'
+}
+{
+  message: 'Error de autenticacion!',
+  level: 'error',
+  timestamp: '2023-10-15T20:57:58.888Z'
+}
+{
+  message: 'Error de autorización!',
+  level: 'error',
+  timestamp: '2023-10-15T21:00:03.735Z'
+}
+{
+  message: 'Error de autorización!',
+  level: 'error',
+  timestamp: '2023-10-15T21:00:10.823Z'
+}
+{
+  message: 'Error de autenticacion!',
+  level: 'error',
+  timestamp: '2023-10-15T21:35:27.448Z'
+}
+{
+  message: 'Error de autenticacion!',
+  level: 'error',
+  timestamp: '2023-10-15T21:35:48.459Z'
+}
+{
+  message: 'Error de autenticacion!',
+  level: 'error',
+  timestamp: '2023-10-16T15:59:15.736Z'
+}
+{
+  message: 'Error de autenticacion!',
+  level: 'error',
+  timestamp: '2023-10-16T16:02:40.085Z'
+}
+{
+  message: 'Error de autenticacion!',
+  level: 'error',
+  timestamp: '2023-10-16T16:03:13.760Z'
+}
+{
+  message: 'Error de autorización!',
+  level: 'error',
+  timestamp: '2023-10-16T16:17:56.922Z'
+}
+{
+  message: 'Error de autorización!',
+  level: 'error',
+  timestamp: '2023-10-16T16:18:06.624Z'
+}
+{
+  message: 'Error de autenticacion!',
+  level: 'error',
+  timestamp: '2023-10-16T18:20:10.119Z'
+}
+{
+  message: 'Error de autenticacion!',
+  level: 'error',
+  timestamp: '2023-10-16T18:20:17.493Z'
+}
+{
+  message: 'Error de autenticacion!',
+  level: 'error',
+  timestamp: '2023-10-16T18:20:24.064Z'
+}
+{
+  message: 'Error de autenticacion!',
+  level: 'error',
+  timestamp: '2023-10-16T18:59:49.115Z'
+}
+{
+  message: 'Error de autenticacion!',
+  level: 'error',
+  timestamp: '2023-10-16T18:59:53.066Z'
+}
+{
+  message: 'Error de autenticacion!',
+  level: 'error',
+  timestamp: '2023-10-16T19:11:05.825Z'
+}
+{
+  message: 'Error de autenticacion!',
+  level: 'error',
+  timestamp: '2023-10-16T19:14:20.982Z'
+}

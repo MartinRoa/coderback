@@ -1,0 +1,24 @@
+<h1>Datos restringidos para administrador</h1>
+<h3><a href="/products">Volver</a></h3>
+<div class="users">
+    <h1 class="users__title">Lista de usuarios:</h1>
+    <div class="users__container">
+    {{#each users}}
+            {{#if isAdmin}}
+            {{else}}
+                <ul class="product__list">
+                    <li class="list__item">Nombre: {{firstName}}</li>
+                    <li class="list__item">Email: {{email}}</li>
+                    <li class="list__item">Rol: {{role}}</li>
+                    {{#if isPremium}}
+                        <button data-id="{{id}}" onclick="changeRoleUser(this)">Convertir a Usuario común</button>
+                    {{else}}
+                        <button data-id="{{id}}" onclick="changeRolePremium(this)">Convertir a Usuario Premium</button>
+                    {{/if}}
+                    <button data-id="{{id}}" onclick="deleteUser(this)">Eliminar usuario</button>
+                </ul>
+            {{/if}}
+    {{/each}}
+    </div>
+</div>
+<script src="/js/admin.js"></script>

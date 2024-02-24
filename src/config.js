@@ -4,6 +4,7 @@ dotenv.config();
 
 export default {
     port: process.env.PORT,
+    webProdURL: process.env.WEB_PROD_URL,
     environment: process.env.ENVIRONMENT,
     persistence: process.env.PERSISTENCE,
     mongodbURL: process.env.MONGODB_URL, 

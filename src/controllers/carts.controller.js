@@ -154,7 +154,7 @@ class CartsController {
                 })
             })
             
-            return res.status(200).render("cart", {cart: req.session.user.cart, finalData});
+            return res.status(200).render("cart", {cart: req.session.user._doc.cart, finalData});
         }
         catch (error) {
             res.status(409).json({
@@ -168,13 +168,14 @@ class CartsController {
     async finalizePurchase(req, res) {
         try {
             const id = req.params.cid;
-            const user = req.session.user.email;
+            const user = req.session.user._doc.email;
             const purchase = await cartsService.finalizePurchase(id, user);
-            res.status(200).json({
-                status: "success",
-                message: "Purchase successfully completed.",
-                data: purchase
-            });
+            return res.status(200).render("ticket", {purchase});
+            // res.status(200).json({
+            //     status: "success",
+            //     message: "Purchase successfully completed.",
+            //     data: purchase
+            // });
         }
         catch (error) {
             res.status(409).json({

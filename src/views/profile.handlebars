@@ -4,9 +4,13 @@
 <h2>Credenciales:</h2>
 {{#if user.isAdmin}}
     <p>Administrador</p>
+    <a href='/users'>Data restringida para Administrador<a>
 {{else}}
     <p>Usuario</p>
 {{/if}}
-<a href='/auth/administration'>Data restringida para Administrador<a>
+{{#if user.isPremium}}
+    <p>Premium</p>
+{{/if}}
 <br><br>
+<h3><a href="/products">Volver</a></h3>
 <a href='/auth/logout'>Cerrar sesión</a>

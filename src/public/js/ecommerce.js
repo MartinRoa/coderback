@@ -1,5 +1,3 @@
-import { logger } from "../../utils";
-
 const addToCart = (button) => {
     const cartId = button.getAttribute('data-cart');
     const productId = button.getAttribute('data-id');
@@ -12,10 +10,10 @@ const addToCart = (button) => {
     })
     .then((res) => res.json())
     .then((data) => {
-        logger.info(`Producto con el id: ${productId} se agregó al cart con id: ${cartId}`);
+        console.log(`Producto con el id: ${productId} se agregó al cart con id: ${cartId}`);
     })
     .catch((err) => {
-        logger.error(err);
+        console.log(err);
     });
 };
 
@@ -31,11 +29,11 @@ const deleteToCart = (button) => {
     })
     .then((res) => res.json())
     .then((data) => {
-        logger.info(`Producto con el id: ${productId} se eliminó del cart con id: ${cartId}`);
+        console.log(`Producto con el id: ${productId} se eliminó del cart con id: ${cartId}`);
         window.location.reload();
     })
     .catch((err) => {
-        logger.error(err);
+        console.log(err);
     });
 };
 
@@ -48,10 +46,10 @@ const emptyCart = (cartId) => {
     })
     .then((res) => res.json())
     .then((data) => {
-        logger.info(`Se vació el cart con id: ${cartId}`);
+        console.log(`Se vació el cart con id: ${cartId}`);
         window.location.reload();
     })
     .catch((err) => {
-        logger.error(err);
+        console.log(err);
     });
 };

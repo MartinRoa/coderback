@@ -6,6 +6,11 @@ class Users {
         return userCreated;
     }
 
+    async getUsers() {
+        const users = await usersModel.find();
+        return users;
+    }
+
     async getUserById(userId) {
         const user = await usersModel.findOne({_id: userId});
         return user;
